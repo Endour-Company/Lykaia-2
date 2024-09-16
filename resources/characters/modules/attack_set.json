@@ -1,0 +1,50 @@
+[
+	{
+		"Knight": [
+			{
+				"id": "kn1",
+				"name": "Upward Slash",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			},
+			{
+				"id": "kn2",
+				"name": "Thrust Attack",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			},
+			{
+				"id": "kn3",
+				"name": "Downward Slash",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			},
+		]
+	},
+	{
+		"Cowboy": [
+			{
+				"id": "cb1",
+				"name": "Left Gun",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			},
+			{
+				"id": "cb2",
+				"name": "Right Gun",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			},
+		]
+	},
+	{
+		"Wolf": [
+			{
+				"id": "w1",
+				"name": "Bite Attack",
+				"desc": "Lorem ipsummmmm",
+				"icon": "",
+			}
+		]
+	},
+]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu5l0ywxwdkw5"]
+
+[ext_resource type="Script" path="res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_indicator.gd" id="1_nq5rr"]
+
+[node name="BattleWaitIndicator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_nq5rr")
+
+[node name="Texture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://tsoq6n20kqwi"]
+
+[ext_resource type="Script" path="res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_bar.gd" id="1_hw572"]
+[ext_resource type="Texture2D" uid="uid://cy7pmjocetpd7" path="res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_bar.png" id="2_i7my2"]
+
+[node name="BattleWaitBar" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = -26.0
+offset_bottom = -26.0
+grow_horizontal = 2
+script = ExtResource("1_hw572")
+origin = Vector2(313, 38)
+dest = Vector2(-359, 38)
+
+[node name="WaitBar" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -406.0
+offset_right = 406.0
+offset_bottom = 132.0
+grow_horizontal = 2
+texture = ExtResource("2_i7my2")

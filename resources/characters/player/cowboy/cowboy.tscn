@@ -1,0 +1,194 @@
+[gd_scene load_steps=19 format=3 uid="uid://4dtcbhd6lmsk"]
+
+[ext_resource type="PackedScene" uid="uid://dd5qgq0ydw8nt" path="res://resources/characters/player/base_player.tscn" id="1_j684k"]
+[ext_resource type="Texture2D" uid="uid://bcguopsgg5cxs" path="res://resources/characters/player/cowboy/battle_indicator_cowboy.png" id="2_6bndv"]
+[ext_resource type="Texture2D" uid="uid://dfx0agwou5rnv" path="res://resources/characters/player/cowboy/sprite_cowboy.png" id="2_m6f24"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m5qvk"]
+size = Vector2(200, 200)
+
+[sub_resource type="Animation" id="Animation_dsgcj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jqy8k"]
+resource_name = "cb1"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.785398, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_euc4n"]
+resource_name = "cb2"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785398, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_iwwti"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_d4hoj"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785398, 0.0, -0.785398, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nrvkq"]
+_data = {
+"RESET": SubResource("Animation_dsgcj"),
+"cb1": SubResource("Animation_jqy8k"),
+"cb2": SubResource("Animation_euc4n"),
+"idle": SubResource("Animation_iwwti"),
+"run": SubResource("Animation_d4hoj")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_imegd"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wpr4d"]
+animation = &"cb1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k45ru"]
+animation = &"cb2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cyuqu"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ouf2q"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_aci4v"]
+filter_enabled = true
+filters = ["Sprite2D:rotation"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_k6vec"]
+filter_enabled = true
+filters = ["Sprite2D:rotation"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pxxc2"]
+graph_offset = Vector2(27.3641, 117.363)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_imegd")
+nodes/Idle/position = Vector2(20, 100)
+"nodes/Left Gun/node" = SubResource("AnimationNodeAnimation_wpr4d")
+"nodes/Left Gun/position" = Vector2(220, 280)
+"nodes/Right Gun/node" = SubResource("AnimationNodeAnimation_k45ru")
+"nodes/Right Gun/position" = Vector2(220, 420)
+nodes/Run/node = SubResource("AnimationNodeAnimation_cyuqu")
+nodes/Run/position = Vector2(20, 260)
+nodes/Running/node = SubResource("AnimationNodeBlend2_ouf2q")
+nodes/Running/position = Vector2(220, 80)
+nodes/cb1/node = SubResource("AnimationNodeOneShot_aci4v")
+nodes/cb1/position = Vector2(420, 140)
+nodes/cb2/node = SubResource("AnimationNodeOneShot_k6vec")
+nodes/cb2/position = Vector2(600, 280)
+nodes/output/position = Vector2(760, 140)
+node_connections = [&"Running", 0, &"Idle", &"Running", 1, &"Run", &"cb1", 0, &"Running", &"cb1", 1, &"Left Gun", &"cb2", 0, &"cb1", &"cb2", 1, &"Right Gun", &"output", 0, &"cb2"]
+
+[node name="Cowboy" instance=ExtResource("1_j684k")]
+char_name = "Cowboy"
+char_battle_indicator = ExtResource("2_6bndv")
+max_health = 80
+strength = 8
+defense = 8
+speed = 10
+accuracy = 9
+evasion = 12
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_m6f24")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_m5qvk")
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_nrvkq")
+}
+
+[node name="AnimationTree" parent="." index="4"]
+tree_root = SubResource("AnimationNodeBlendTree_pxxc2")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Running/blend_amount = 0.0
+parameters/cb1/active = false
+parameters/cb1/internal_active = false
+parameters/cb1/request = 0
+parameters/cb2/active = false
+parameters/cb2/internal_active = false
+parameters/cb2/request = 0

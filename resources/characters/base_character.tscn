@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfrxvfs7jqlr5"]
+
+[ext_resource type="Script" path="res://resources/characters/base_character.gd" id="1_q60xy"]
+
+[node name="BaseCharacter" type="CharacterBody2D"]
+position = Vector2(0, -17.4609)
+script = ExtResource("1_q60xy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="BattleTurnTimer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+
+[connection signal="timeout" from="BattleTurnTimer" to="." method="_on_battle_turn_timer_timeout"]
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

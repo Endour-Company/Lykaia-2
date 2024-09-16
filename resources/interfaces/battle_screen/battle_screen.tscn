@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://pjufv2tcmypc"]
+
+[ext_resource type="PackedScene" uid="uid://tsoq6n20kqwi" path="res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_bar.tscn" id="1_ofv0c"]
+[ext_resource type="PackedScene" uid="uid://6e26yg70j0sq" path="res://resources/interfaces/battle_screen/modules/command_buttons/command_buttons.tscn" id="2_v2sy2"]
+
+[node name="BattleScreen" type="CanvasLayer"]
+
+[node name="BattleWaitBar" parent="." instance=ExtResource("1_ofv0c")]
+
+[node name="CommandButtons" parent="." instance=ExtResource("2_v2sy2")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -412.0
+offset_right = -60.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0

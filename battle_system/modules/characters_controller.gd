@@ -1,0 +1,233 @@
+extends Node
+class_name CharactersController
+
+## Class for controlling in-battle characters
+
+
+## Stores root scene.
+## Used for adding child scenes.
+@onready var root: Node = $".."
+
+## Holds nodes of knight and cowboy
+var knight_node: Node2D = Utils.Resources["KNIGHT"].instantiate()
+var cowboy_node: Node2D = Utils.Resources["COWBOY"].instantiate()
+var player_nodes: Array
+
+## Holds nodes of enemies
+var enemy_nodes: Array
+
+
+## Begin export groups for character's position in-battle.
+@export_category("Players")
+@export_group("Positions")
+## Stores the player's battle position when there's only one hero.
+@export var SINGLE_PLAYER_POS = Vector2(400, 500)
+
+## Stores the players' battle position when there are 2-3 heroes.
+@export var MULTIPLE_PLAYER_POS = [
+	Vector2(500, 285),
+	Vector2(500, 750),
+	Vector2(300, 525)
+]
+
+@export_category("Enemies")
+@export_group("Positions")
+## Stores the enemy's battle position if there's only one enemy.
+@export var SINGLE_ENEMY_POS = Vector2(1100, 500)
+
+## Stores the players' battle position when there are 2-3 enemies.
+@export var MULTIPLE_ENEMY_POS = [
+	Vector2(1100, 285),
+	Vector2(1100, 750),
+	Vector2(1300, 525)
+]
+
+
+## Holds how many players are on field
+var player_count: int = 2
+
+## Holds how many enemies are on field
+var enemy_count: int = 0
+
+## Holds the scene of character's battle health bar
+var health_bar_scene: PackedScene = Utils.Resources["BATTLE_HEALTH_BAR"]
+
+## CharactersController has to store BattleFlowManager and UIController
+var battle_flow_manager: BattleFlowManager
+var ui_controller: UIController
+
+
+## Adds battle characters to scene tree
+func add_characters(
+	enemies: Array,
+	players: Array = [knight_node, cowboy_node]
+):
+	## Returns if enemies array is empty
+	if enemies.is_empty():
+		return
+	
+	## Stores nodes and adds to scene tree
+	player_nodes = players.duplicate()
+	for player in players:
+		add_child(player)
+	
+	## Do the same but for the enemies
+	enemy_nodes = enemies.duplicate()
+	for enemy in enemies:
+		add_child(enemy)
+
+
+## Decreases character's energy by given value.
+func decrease_energy(char_node: BaseCharacter, value: int = 1):
+	char_node.energy -= value
+
+
+## Gets enemy node from enemy_nodes array at given index.
+func get_enemy(index: int) -> BaseCharacter:
+	return enemy_nodes[index]
+
+
+## Gets index of the next enemy in enemy_nodes array after given index.
+## Returns -1 if all enemies are dead.
+func get_next_enemy(index: int) -> int:
+	## Checks if all enemies are dead.
+	var is_all_dead: bool = true
+	for enemy in enemy_nodes:
+		if not enemy.is_dead:
+			is_all_dead = false
+			break
+	if is_all_dead:
+		return -1
+	
+	## Increment index
+	index += 1
+	
+	## If index has overflowed the array, go back to 0.
+	if index >= enemy_nodes.size():
+		index = 0
+	
+	## If currently selected enemy is dead, returns the next not-dead enemy.
+	if enemy_nodes[index].is_dead:
+		return get_next_enemy(index)
+	
+	## Otherwise, returns the incremented index.
+	return index
+
+
+## Gets player node from player_nodes array at given index.
+func get_player(index: int) -> BaseCharacter:
+	return player_nodes[index]
+
+
+## Recharge character's energy, increment current energy by value.
+func increase_energy(char_node: BaseCharacter, value: int = 2):
+	char_node.energy += value
+
+
+## Initializes CharactersController
+func initialize(
+	battle_flow_manager: BattleFlowManager,
+	ui_controller: UIController
+):
+	self.battle_flow_manager = battle_flow_manager
+	self.ui_controller = ui_controller
+
+
+## Checks if a character is an enemy.
+## Returns the index of char_node in enemy_nodes array if found,
+## otherwise returns -1.
+func is_enemy(char_node: BaseCharacter) -> int :
+	return enemy_nodes.find(char_node)
+
+
+## Checks if a character has run out of energy.
+func is_energy_empty(char_node: BaseCharacter) -> bool :
+	return char_node.energy == 0
+
+
+## Checks if a character is a player.
+## Returns the index of char_node in player_nodes array if found,
+## otherwise returns -1.
+func is_player(char_node: BaseCharacter) -> int :
+	return player_nodes.find(char_node)
+
+
+## Sets character's guard state
+func set_character_guard(char_node: BaseCharacter, is_guarding: bool):
+	char_node.guarding = is_guarding
+
+
+## Pauses/Resumes characters' battle timer
+func set_paused_battle_timers(is_paused: bool):
+	for child in get_children():
+		## Skips if child is not a character
+		if not child is CharacterBody2D:
+			continue
+		
+		match is_paused:
+			true:
+				child.pause_battle_timer()
+			false:
+				child.resume_battle_timer()
+
+
+## Sets up battle characters.
+func setup_characters():
+	## For each characters, creates a battle turn indicator for it,
+	## places them on their positions, connects their battle signals,
+	## and creates their health bars. Use MULTIPLE_[PLAYER/ENEMY]_POS
+	## if there are more than one players/enemies on field, otherwise
+	## use SINGLE_[PLAYER/ENEMY]_POS.
+	
+	player_count = player_nodes.size()
+	if player_count > 1:
+		for i in player_count:
+			_setup_character(
+				player_nodes[i],
+				MULTIPLE_PLAYER_POS[i],
+				false
+			)
+	else:
+		_setup_character(
+			player_nodes[0],
+			SINGLE_PLAYER_POS,
+			false
+		)
+	
+	enemy_count = enemy_nodes.size()
+	if enemy_count > 1:
+		for i in enemy_count:
+			_setup_character(
+				enemy_nodes[i],
+				MULTIPLE_ENEMY_POS[i],
+				true
+			)
+	else:
+		_setup_character(
+			enemy_nodes[0],
+			SINGLE_ENEMY_POS,
+			true
+		)
+
+
+## Sets up an individual character.
+## This is a tail function for _setup_characters.
+func _setup_character(
+	char_node: BaseCharacter,
+	pos: Vector2,
+	is_enemy: bool,
+):
+	## Adds indicator
+	ui_controller.wait_bar.add_indicator(
+		char_node.char_battle_indicator,
+		char_node.battle_delay
+	)
+	
+	## Places them on their positions
+	char_node.set_position(pos)
+	
+	## Adds health bars
+	ui_controller.create_healthbar(char_node, is_enemy)
+	
+	## Connects battle signal
+	char_node.battle_action.connect(battle_flow_manager.begin_turn)

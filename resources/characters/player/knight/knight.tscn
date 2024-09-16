@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwkiq6excq1m3"]
+
+[ext_resource type="PackedScene" uid="uid://dd5qgq0ydw8nt" path="res://resources/characters/player/base_player.tscn" id="1_l55t6"]
+[ext_resource type="Texture2D" uid="uid://d1pgjh5lg02k4" path="res://resources/characters/player/knight/battle_indicator_knight.png" id="2_bcodp"]
+[ext_resource type="Texture2D" uid="uid://dm35hjyqpdlbc" path="res://resources/characters/player/knight/sprite_knight.png" id="2_h8gqx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbeyi"]
+size = Vector2(200, 200)
+
+[sub_resource type="Animation" id="Animation_y4gyp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_gcryh"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u27dj"]
+_data = {
+"RESET": SubResource("Animation_y4gyp"),
+"idle": SubResource("Animation_gcryh")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fvbrd"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c8k6x"]
+nodes/Idle/node = SubResource("AnimationNodeAnimation_fvbrd")
+nodes/Idle/position = Vector2(220, 60)
+nodes/output/position = Vector2(580, 100)
+node_connections = [&"output", 0, &"Idle"]
+
+[node name="Knight" instance=ExtResource("1_l55t6")]
+position = Vector2(0, -16.4283)
+char_name = "Knight"
+char_battle_indicator = ExtResource("2_bcodp")
+max_health = 100
+strength = 10
+defense = 10
+speed = 7
+accuracy = 10
+evasion = 7
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_h8gqx")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_jbeyi")
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_u27dj")
+}
+
+[node name="AnimationTree" parent="." index="4"]
+tree_root = SubResource("AnimationNodeBlendTree_c8k6x")
+anim_player = NodePath("../AnimationPlayer")

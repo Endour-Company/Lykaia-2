@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2am8j38sdq5r"]
+
+[ext_resource type="PackedScene" uid="uid://6wr5npac61ry" path="res://resources/characters/enemies/base_enemy.tscn" id="1_pur18"]
+[ext_resource type="Texture2D" uid="uid://24lm6l3esu6i" path="res://resources/characters/enemies/wolf/battle_indicator_wolf.png" id="2_gf6gu"]
+[ext_resource type="Texture2D" uid="uid://mh4ls3emgalj" path="res://resources/characters/enemies/wolf/sprite_wolf.png" id="2_t1vfp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x0nhc"]
+size = Vector2(200, 198)
+
+[sub_resource type="Animation" id="Animation_xfblo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8ofsy"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pr7ep"]
+_data = {
+"RESET": SubResource("Animation_xfblo"),
+"idle": SubResource("Animation_8ofsy")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_djh1x"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wbf31"]
+nodes/Idle/node = SubResource("AnimationNodeAnimation_djh1x")
+nodes/Idle/position = Vector2(149, 116)
+nodes/output/position = Vector2(380, 140)
+node_connections = [&"output", 0, &"Idle"]
+
+[node name="Wolf" instance=ExtResource("1_pur18")]
+char_name = "Wolf"
+char_battle_indicator = ExtResource("2_gf6gu")
+max_health = 50
+strength = 5
+defense = 5
+speed = 5
+accuracy = 5
+evasion = 5
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_t1vfp")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_x0nhc")
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_pr7ep")
+}
+
+[node name="AnimationTree" parent="." index="4"]
+tree_root = SubResource("AnimationNodeBlendTree_wbf31")
+anim_player = NodePath("../AnimationPlayer")

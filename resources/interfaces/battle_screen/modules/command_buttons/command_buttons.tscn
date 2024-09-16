@@ -1,0 +1,232 @@
+[gd_scene load_steps=2 format=3 uid="uid://6e26yg70j0sq"]
+
+[ext_resource type="Script" path="res://resources/interfaces/battle_screen/modules/command_buttons/command_buttons.gd" id="1_cnsrv"]
+
+[node name="CommandButtons" type="Control"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_cnsrv")
+
+[node name="AttackButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Attack"
+
+[node name="CoreButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Core"
+
+[node name="ItemButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Item"
+
+[node name="GuardButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Guard"
+
+[node name="RunButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -30.0
+offset_right = 60.0
+offset_bottom = 30.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Run"
+
+[node name="TargetButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -30.0
+offset_right = 60.0
+offset_bottom = 30.0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Target"
+
+[node name="Attack1Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+text = "Attack 1"
+text_overrun_behavior = 3
+
+[node name="Attack2Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+text = "Attack 2"
+text_overrun_behavior = 3
+
+[node name="Attack3Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+text = "Attack 3"
+text_overrun_behavior = 3
+
+[node name="EndAttackButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+text = "End Attack"
+text_overrun_behavior = 3
+
+[node name="CancelAttackButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -30.0
+offset_right = 60.0
+offset_bottom = 30.0
+mouse_default_cursor_shape = 2
+text = "Cancel"
+text_overrun_behavior = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8
+anchor_top = 0.8
+anchor_right = 0.8
+anchor_bottom = 0.8
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+color = Color(0.151276, 0.151276, 0.151276, 1)
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+text = "[INSERT
+FIST ICON
+HERE]"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="AttackButton" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="GuardButton" to="." method="_on_guard_button_pressed"]
+[connection signal="pressed" from="TargetButton" to="." method="_on_target_button_pressed"]
+[connection signal="pressed" from="Attack1Button" to="." method="_on_attack_command_pressed" binds= [0]]
+[connection signal="pressed" from="Attack2Button" to="." method="_on_attack_command_pressed" binds= [1]]
+[connection signal="pressed" from="Attack3Button" to="." method="_on_attack_command_pressed" binds= [2]]
+[connection signal="pressed" from="EndAttackButton" to="." method="_on_end_attack_button_pressed"]
+[connection signal="pressed" from="CancelAttackButton" to="." method="_on_cancel_attack_button_pressed"]

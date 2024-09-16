@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7v101qewyf30"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_kq2fh"]
+[ext_resource type="PackedScene" uid="uid://cagy3yflvmg3y" path="res://utility/loading_screen/loading_screen.tscn" id="2_r0r81"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_kq2fh")
+
+[node name="LoadingScreen" parent="." instance=ExtResource("2_r0r81")]
+
+[connection signal="loading_complete" from="LoadingScreen" to="." method="_on_loading_screen_loading_complete"]
