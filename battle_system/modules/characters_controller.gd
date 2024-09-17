@@ -77,6 +77,15 @@ func add_characters(
 		add_child(enemy)
 
 
+## Using a given character, attacks a given enemy.
+func attack(
+	attacker: BaseCharacter,
+	attack_name: String,
+	target: BaseCharacter
+):
+	attacker.attack(attack_name, target.position)
+
+
 ## Decreases character's energy by given value.
 func decrease_energy(char_node: BaseCharacter, value: int = 1):
 	char_node.energy -= value
@@ -114,12 +123,34 @@ func get_next_enemy(index: int) -> int:
 	return index
 
 
+## Gets a character's original position
+func get_original_position(char_node: BaseCharacter):
+	var index: int
+	var pos: Vector2
+	
+	## Handles cases where character is a player or an enemy
+	index = is_player(char_node)
+	if index >= 0: ## Is a player
+		if player_count > 1:
+			pos = MULTIPLE_PLAYER_POS[index]
+		else:
+			pos = SINGLE_PLAYER_POS
+	else: ## Is an enemy
+		index = is_enemy(char_node)
+		if enemy_count > 1:
+			pos = MULTIPLE_ENEMY_POS[index]
+		else:
+			pos = SINGLE_ENEMY_POS
+	
+	return pos
+
+
 ## Gets player node from player_nodes array at given index.
 func get_player(index: int) -> BaseCharacter:
 	return player_nodes[index]
 
 
-## Recharge character's energy, increment current energy by value.
+## Recharge character's energy, increment current energy by given value.
 func increase_energy(char_node: BaseCharacter, value: int = 2):
 	char_node.energy += value
 
@@ -145,11 +176,25 @@ func is_energy_empty(char_node: BaseCharacter) -> bool :
 	return char_node.energy == 0
 
 
+## Checks if a character is in its original position.
+func is_in_original_position(char_node: BaseCharacter) -> bool :
+	return char_node.position == get_original_position(char_node)
+
+
 ## Checks if a character is a player.
 ## Returns the index of char_node in player_nodes array if found,
 ## otherwise returns -1.
 func is_player(char_node: BaseCharacter) -> int :
 	return player_nodes.find(char_node)
+
+
+## Moves a character to its original position.
+func move_to_original_position(char_node: BaseCharacter):
+	## Gets its original position
+	var pos: Vector2 = get_original_position(char_node)
+	
+	## Moves character to its original position.
+	char_node.move_to(pos)
 
 
 ## Sets character's guard state

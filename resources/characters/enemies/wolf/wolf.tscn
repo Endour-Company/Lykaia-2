@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c2am8j38sdq5r"]
 
 [ext_resource type="PackedScene" uid="uid://6wr5npac61ry" path="res://resources/characters/enemies/base_enemy.tscn" id="1_pur18"]
-[ext_resource type="Texture2D" uid="uid://24lm6l3esu6i" path="res://resources/characters/enemies/wolf/battle_indicator_wolf.png" id="2_gf6gu"]
+[ext_resource type="Texture2D" uid="uid://24lm6l3esu6i" path="res://resources/characters/enemies/wolf/battle_indicator_wolf.png" id="2_l1dne"]
 [ext_resource type="Texture2D" uid="uid://mh4ls3emgalj" path="res://resources/characters/enemies/wolf/sprite_wolf.png" id="2_t1vfp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x0nhc"]
@@ -54,8 +54,12 @@ nodes/output/position = Vector2(380, 140)
 node_connections = [&"output", 0, &"Idle"]
 
 [node name="Wolf" instance=ExtResource("1_pur18")]
+initial_weight = 10
+delta_weight_on_health = 40
+delta_weight_on_str = 30
+delta_weight_on_def = 30
 char_name = "Wolf"
-char_battle_indicator = ExtResource("2_gf6gu")
+char_battle_indicator = ExtResource("2_l1dne")
 max_health = 50
 strength = 5
 defense = 5

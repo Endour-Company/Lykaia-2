@@ -5,7 +5,7 @@ class_name BattleFlowManager
 ## such as starting and ending of a character's turn.
 
 
-## Stores character that is currently has their turn.
+## Stores character that currently has their turn.
 var acting_character: BaseCharacter
 
 ## Stores index of currently targeted enemy
@@ -47,6 +47,12 @@ func begin_turn(char_node: BaseCharacter):
 
 ## Ends a character's turn
 func end_turn():
+	## Moves character back to its original position if they're not already,
+	## and waits until they finished moving.
+	if not chars_controller.is_in_original_position(acting_character):
+		chars_controller.move_to_original_position(acting_character)
+		await acting_character.action_finished
+	
 	## If acting character is a player, despawns battle pointer
 	## and hides command buttons.
 	if chars_controller.is_player(acting_character) >= 0:
@@ -102,16 +108,31 @@ func on_committed_attack_signal(index: int):
 	## Decreases character's energy by one.
 	chars_controller.decrease_energy(acting_character)
 	
-	## If character's energy has run out, disables attack choices in
-	## attack command buttons.
-	if chars_controller.is_energy_empty(acting_character):
+	## If character is a player and their energy has run out,
+	## disables attack choices in attack command buttons.
+	if chars_controller.is_player(acting_character) >= 0\
+	and chars_controller.is_energy_empty(acting_character):
 		ui_controller.command_buttons.disable_attack_choices()
+	
+	## Sends attack command to CharactersController
+	chars_controller.attack(
+		acting_character,
+		acting_character.attack_set[index]["id"],
+		chars_controller.get_enemy(index_target_enemy)
+	)
 
 
 ## Handles end attack signal.
 ## Ends a character's attack combo, hides command buttons, and ends turn.
 func on_end_attack_signal():
+	## Hides attack command buttons immediately to prevent multiple calls.
 	ui_controller.command_buttons.hide_attack_commands()
+	
+	## Wait for animation to finish
+	## if acting character is currently moving/attacking.
+	if acting_character.is_moving:
+		await acting_character.action_finished
+	
 	end_turn()
 
 
