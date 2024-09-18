@@ -41,8 +41,8 @@ func begin_turn(char_node: BaseCharacter):
 		)
 		ui_controller.command_buttons.show_actions()
 	else:
-		## For now, skips the enemy's turn
-		end_turn()
+		## Initate enemy strategy
+		chars_controller.initiate_enemy_strategy(acting_character)
 
 
 ## Ends a character's turn
@@ -103,22 +103,36 @@ func on_cancel_attack_signal():
 ## Handles committed attack signal from command buttons,
 ## which will be emitted when the player has chosen
 ## an attack from attack command buttons.
-## Accepts the index of attack in attack_set array.
-func on_committed_attack_signal(index: int):
+## Accepts the index of attack in attack_set array,
+## and, optionally, the index of the target.
+func on_committed_attack_signal(index_attack: int, index_target: int = 0):
+	## Stores the attack target
+	var target: BaseCharacter
+	
 	## Decreases character's energy by one.
 	chars_controller.decrease_energy(acting_character)
 	
-	## If character is a player and their energy has run out,
-	## disables attack choices in attack command buttons.
-	if chars_controller.is_player(acting_character) >= 0\
-	and chars_controller.is_energy_empty(acting_character):
-		ui_controller.command_buttons.disable_attack_choices()
+	## If the character is a player, sets the index_target to the targeted.
+	if chars_controller.is_player(acting_character) >= 0:
+		index_target = index_target_enemy
+		
+		## Sets the attack target
+		target = chars_controller.get_enemy(index_target)
+		
+		## If the player has runs out of energy, disabled attack choices
+		## in attack command buttons.
+		if chars_controller.is_energy_empty(acting_character):
+			ui_controller.command_buttons.disable_attack_choices()
+	else:
+		## If the acting character is an enemy, sets a player as the attack
+		## target.
+		target = chars_controller.get_player(index_target)
 	
 	## Sends attack command to CharactersController
 	chars_controller.attack(
 		acting_character,
-		acting_character.attack_set[index]["id"],
-		chars_controller.get_enemy(index_target_enemy)
+		acting_character.attack_set[index_attack]["id"],
+		target
 	)
 
 

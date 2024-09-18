@@ -103,10 +103,10 @@ signal death ## Sent if health reached 0
 signal action_finished
 
 
-## Attacks with given attack animation with target enemy at given position.
+## Attacks with given attack animation to given target enemy.
 func attack(
 	attack_name: String,
-	enemy_pos: Vector2
+	target: BaseCharacter
 ):
 	## Adds attack to queue
 	attack_queue.append(attack_name)
@@ -116,7 +116,7 @@ func attack(
 	## before playing animation. Else if character is not moving but is already
 	## in the correct position, then plays the given attack animation
 	## immediately.
-	var target_pos: Vector2 = enemy_pos + attack_pos_offest
+	var target_pos: Vector2 = target.position + attack_pos_offest
 	if not is_moving:
 		if position != target_pos:
 			move_to(target_pos)

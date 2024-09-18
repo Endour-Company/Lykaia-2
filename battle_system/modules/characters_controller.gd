@@ -83,7 +83,7 @@ func attack(
 	attack_name: String,
 	target: BaseCharacter
 ):
-	attacker.attack(attack_name, target.position)
+	attacker.attack(attack_name, target)
 
 
 ## Decreases character's energy by given value.
@@ -153,6 +153,28 @@ func get_player(index: int) -> BaseCharacter:
 ## Recharge character's energy, increment current energy by given value.
 func increase_energy(char_node: BaseCharacter, value: int = 2):
 	char_node.energy += value
+
+
+## Initiates strategy. Called only for enemy.
+## Accepts the acting enemy as argument.
+func initiate_enemy_strategy(acting_enemy: BaseEnemy):
+	## Connects the enemy signals (one-shot)
+	acting_enemy.action_attack.connect(
+		battle_flow_manager.on_committed_attack_signal,
+		CONNECT_ONE_SHOT
+	)
+	acting_enemy.action_guard.connect(
+		battle_flow_manager.on_guard_signal,
+		CONNECT_ONE_SHOT
+	)
+	## Tells the enemy to take action
+	var action: String = acting_enemy.take_action(player_nodes)
+	
+	match action:
+		"attack":
+			## Waits for action to finish, then end turn
+			await acting_enemy.action_finished
+			battle_flow_manager.end_turn()
 
 
 ## Initializes CharactersController
