@@ -6,18 +6,21 @@
 				"name": "Upward Slash",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 2.0,
 			},
 			{
 				"id": "kn2",
 				"name": "Thrust Attack",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 2.0,
 			},
 			{
 				"id": "kn3",
 				"name": "Downward Slash",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 2.0
 			},
 		]
 	},
@@ -28,12 +31,14 @@
 				"name": "Left Gun",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 1.5,
 			},
 			{
 				"id": "cb2",
 				"name": "Right Gun",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 1.5,
 			},
 		]
 	},
@@ -44,6 +49,7 @@
 				"name": "Bite Attack",
 				"desc": "Lorem ipsummmmm",
 				"icon": "",
+				"power": 1.5,
 			}
 		]
 	},

@@ -15,6 +15,15 @@ var index_target_enemy: int = 0
 var chars_controller: CharactersController
 var ui_controller: UIController
 
+## Modifiers for some battle parameters such as attack and defense
+@export_group("Battle Modifiers")
+
+## Attack modifier, will influence the character's total attack power.
+@export var attack_modifier: float = 2.5
+
+## Defense modifier, will influence the character's total defense power.
+@export var defense_modifier: float = 1.25
+
 
 ## Begins a character's turn
 func begin_turn(char_node: BaseCharacter):
@@ -136,6 +145,34 @@ func on_committed_attack_signal(index_attack: int, index_target: int = 0):
 	)
 
 
+## Handles damage signal, which will be emitted whenever a character
+## has initiated an attack and the damage calculation is supposed to happen.
+func on_damage_signal(
+	attacker: BaseCharacter,
+	attack_name: String,
+	target: BaseCharacter
+):
+	## Checks if attack hits
+	if _does_attack_hit(attacker.accuracy, target.evasion):
+		## Gets the attack's attack power
+		var attack_data: Dictionary = Utils.find_dictionary_in_array_with_value(
+			attacker.attack_set,
+			"id",
+			attack_name
+		)
+		var attack_power: float = attack_data.get("power")
+		
+		## Calculates damage
+		var total_damage = _calculate_damage(
+			attacker.strength,
+			target.defense,
+			attack_power
+		)
+		print(total_damage)
+	else:
+		print("ATTACK MISSED")
+
+
 ## Handles end attack signal.
 ## Ends a character's attack combo, hides command buttons, and ends turn.
 func on_end_attack_signal():
@@ -167,3 +204,51 @@ func on_target_signal():
 		ui_controller.spawn_battle_pointer(
 			chars_controller.get_enemy(index_target_enemy).position
 		)
+
+
+## Calculates battle damage.
+func _calculate_damage(
+	attacker_strength: int,
+	target_defense: int,
+	attack_power: float
+):
+	## Calculates total attack power
+	var total_attack_power: float = \
+	attack_modifier * attacker_strength * attack_power
+	
+	## Calculates total defense power
+	var total_defense_power: float = defense_modifier * target_defense
+	
+	## Gets a random value to lastly modify total damage
+	var total_damage: float = total_attack_power - total_defense_power
+	var damage_modifier: float = randf_range(
+		-total_damage/15,
+		total_damage/15
+	)
+	
+	## Calculates final damage
+	var final_damage: float = total_damage + damage_modifier
+	if final_damage < 0:
+		final_damage = 0
+	elif final_damage > 999:
+		final_damage = 999
+	
+	## Returns the rounded down result
+	return floor(final_damage)
+
+
+## Calculates whether an attack hits or not by substracting accuracy by
+## evasion, and then divides the result with the accuracy and multiply
+## it by 100 to convert it to a percentage value. Then, produce a random number
+## ranging between 0-100, and if it's lower than that value, it will hit.
+func _does_attack_hit(attacker_accuracy: int, target_evasion: int) -> bool :
+	## Calculates hit chance
+	var hit_chance: float = \
+	1.0 * (attacker_accuracy - target_evasion) / attacker_accuracy * 100.0
+	
+	## Gets random value
+	var random_value: int = randi() % 100
+	
+	## Checks if random value is lower than hit_chance, if it is then the
+	## attack will hit.
+	return random_value < hit_chance

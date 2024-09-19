@@ -73,6 +73,20 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0, -0.785398, 0.0]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_euc4n"]
 resource_name = "cb2"
@@ -88,6 +102,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0.0, 0.785398, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_iwwti"]
@@ -182,11 +210,11 @@ animation = &"run"
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_aci4v"]
 filter_enabled = true
-filters = ["Sprite2D:rotation"]
+filters = [".", "Sprite2D:rotation"]
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_k6vec"]
 filter_enabled = true
-filters = ["Sprite2D:rotation"]
+filters = [".", "Sprite2D:rotation"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pxxc2"]
 nodes/Idle/node = SubResource("AnimationNodeAnimation_imegd")
@@ -213,12 +241,12 @@ node_connections = [&"Jumping", 0, &"Running", &"Jumping", 1, &"Jump", &"Running
 [node name="Cowboy" instance=ExtResource("1_j684k")]
 char_name = "Cowboy"
 char_battle_indicator = ExtResource("2_6bndv")
-max_health = 80
+max_health = 200
 strength = 8
 defense = 8
 speed = 10
-accuracy = 9
-evasion = 12
+accuracy = 4
+evasion = 1
 attack_pos_offest = Vector2(-350, 0)
 
 [node name="Sprite2D" parent="." index="0"]

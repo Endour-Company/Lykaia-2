@@ -37,10 +37,31 @@ func parse_json_by_filepath(path: String) -> Variant:
 
 
 ## Finds a dictionary that contains the specified key in an array,
-## and returns the value.
-func find_dictionary_in_array_with_key(arr: Array, key: Variant):
+## and returns the value of that key or the dictionary itself based on the
+## given return_dict_value argument.
+func find_dictionary_in_array_with_key(
+	arr: Array,
+	key: Variant,
+	return_dict_value: bool = true):
 	for element in arr:
 		if element.has(key):
-			return element[key]
+			if return_dict_value:
+				return element[key]
+			else:
+				return element
+	
+	return null
+
+
+## Finds a dictionary in an array that contains a value for a given key,
+## and returns the dictionary.
+func find_dictionary_in_array_with_value(
+	arr: Array,
+	key: Variant,
+	value: Variant
+):
+	for dict in arr:
+		if dict.get(key) == value:
+			return dict
 	
 	return null

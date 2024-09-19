@@ -84,6 +84,12 @@ func attack(
 	target: BaseCharacter
 ):
 	attacker.attack(attack_name, target)
+	
+	## Connects damage signal to calculate hit chance and damage
+	attacker.damage.connect(
+		battle_flow_manager.on_damage_signal.bind(attacker, attack_name, target),
+		CONNECT_REFERENCE_COUNTED
+	)
 
 
 ## Decreases character's energy by given value.

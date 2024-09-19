@@ -116,6 +116,20 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0, -0.785398, 0.0]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_n1i4d"]
 resource_name = "kn2"
@@ -130,6 +144,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-20, 0), Vector2(70, 0), Vector2(60, 0), Vector2(65, 0), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_h85wu"]
@@ -157,6 +185,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0.0, 0.785398, 0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u27dj"]
@@ -188,15 +230,16 @@ animation = &"kn1"
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_e3hg6"]
 filter_enabled = true
-filters = ["Sprite2D:rotation"]
+filters = [".", "Sprite2D:rotation"]
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_m4bp8"]
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_3gybh"]
-filters = ["Sprite2D:rotation"]
+filter_enabled = true
+filters = [".", "Sprite2D:rotation"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c8k6x"]
-graph_offset = Vector2(-336.291, 19.1806)
+graph_offset = Vector2(-233.274, 69.8582)
 "nodes/Downward Slash/node" = SubResource("AnimationNodeAnimation_cowio")
 "nodes/Downward Slash/position" = Vector2(660, 680)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_fvbrd")
@@ -222,12 +265,12 @@ node_connections = [&"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"kn1", 0, &
 position = Vector2(0, -16.4283)
 char_name = "Knight"
 char_battle_indicator = ExtResource("2_bcodp")
-max_health = 100
+max_health = 250
 strength = 10
 defense = 10
 speed = 7
-accuracy = 10
-evasion = 7
+accuracy = 5
+evasion = 1
 attack_pos_offest = Vector2(-200, 0)
 
 [node name="Sprite2D" parent="." index="0"]

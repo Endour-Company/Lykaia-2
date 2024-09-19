@@ -92,6 +92,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(20, 0), Vector2(-70, 0), Vector2(-60, 0), Vector2(-65, 0), Vector2(0, 0)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_send_damage_signal"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pr7ep"]
 _data = {
@@ -132,12 +146,12 @@ node_connections = [&"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"output", 0
 [node name="Wolf" instance=ExtResource("1_pur18")]
 char_name = "Wolf"
 char_battle_indicator = ExtResource("2_l1dne")
-max_health = 50
+max_health = 150
 strength = 5
 defense = 5
 speed = 5
 accuracy = 5
-evasion = 5
+evasion = 1
 attack_pos_offest = Vector2(200, 0)
 
 [node name="Sprite2D" parent="." index="0"]

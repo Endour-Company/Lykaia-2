@@ -99,6 +99,7 @@ var core_set: Array
 signal health_changed(health)
 signal energy_changed(energy)
 signal battle_action(node) ## Sent in-battle when it's this character's turn
+signal damage ## Sent in-battle to begin damage calculation
 signal death ## Sent if health reached 0
 signal action_finished
 
@@ -120,7 +121,6 @@ func attack(
 	if not is_moving:
 		if position != target_pos:
 			move_to(target_pos)
-			return
 		else:
 			_play_next_attack_animation()
 
@@ -253,6 +253,11 @@ func _ready():
 func _start_battle_delay():
 	battle_delay = _calculate_battle_delay()
 	battle_timer.start(battle_delay)
+
+
+## Sends damage signal.
+func _send_damage_signal():
+	damage.emit()
 
 
 ## Handles timeout of battle turn timer.
