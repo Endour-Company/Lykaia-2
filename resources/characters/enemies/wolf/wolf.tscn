@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c2am8j38sdq5r"]
+[gd_scene load_steps=19 format=3 uid="uid://c2am8j38sdq5r"]
 
 [ext_resource type="PackedScene" uid="uid://6wr5npac61ry" path="res://resources/characters/enemies/base_enemy.tscn" id="1_pur18"]
 [ext_resource type="Texture2D" uid="uid://24lm6l3esu6i" path="res://resources/characters/enemies/wolf/battle_indicator_wolf.png" id="2_l1dne"]
@@ -32,6 +32,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_8ofsy"]
@@ -107,16 +119,62 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_a56gg"]
+resource_name = "dead"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 48)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.295867, 0.295866, 0.295866, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pr7ep"]
 _data = {
 "RESET": SubResource("Animation_xfblo"),
+"dead": SubResource("Animation_a56gg"),
 "idle": SubResource("Animation_8ofsy"),
 "jump": SubResource("Animation_u6q3p"),
 "w1": SubResource("Animation_7y0ym")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qk16j"]
+animation = &"dead"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n8fg2"]
 animation = &"w1"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_0uqab"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_djh1x"]
 animation = &"idle"
@@ -129,27 +187,31 @@ animation = &"jump"
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_bwwnq"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wbf31"]
-graph_offset = Vector2(0, 101.761)
+graph_offset = Vector2(-205.594, 37.6059)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_qk16j")
+nodes/Animation/position = Vector2(440, 560)
 "nodes/Bite Attack/node" = SubResource("AnimationNodeAnimation_n8fg2")
 "nodes/Bite Attack/position" = Vector2(200, 420)
+nodes/Dead/node = SubResource("AnimationNodeOneShot_0uqab")
+nodes/Dead/position = Vector2(720, 380)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_djh1x")
 nodes/Idle/position = Vector2(149, 116)
 nodes/Jump/node = SubResource("AnimationNodeAnimation_w7mys")
 nodes/Jump/position = Vector2(160, 260)
 nodes/Jumping/node = SubResource("AnimationNodeOneShot_djyp0")
 nodes/Jumping/position = Vector2(360, 140)
-nodes/output/position = Vector2(720, 160)
+nodes/output/position = Vector2(900, 220)
 nodes/w1/node = SubResource("AnimationNodeOneShot_bwwnq")
 nodes/w1/position = Vector2(520, 300)
-node_connections = [&"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"output", 0, &"w1", &"w1", 0, &"Jumping", &"w1", 1, &"Bite Attack"]
+node_connections = [&"Dead", 0, &"w1", &"Dead", 1, &"Animation", &"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"output", 0, &"Dead", &"w1", 0, &"Jumping", &"w1", 1, &"Bite Attack"]
 
 [node name="Wolf" instance=ExtResource("1_pur18")]
 char_name = "Wolf"
 char_battle_indicator = ExtResource("2_l1dne")
 max_health = 150
-strength = 5
+strength = 8
 defense = 5
-speed = 5
+speed = 6
 accuracy = 5
 evasion = 1
 attack_pos_offest = Vector2(200, 0)
@@ -169,6 +231,9 @@ libraries = {
 [node name="AnimationTree" parent="." index="4"]
 tree_root = SubResource("AnimationNodeBlendTree_wbf31")
 anim_player = NodePath("../AnimationPlayer")
+parameters/Dead/active = false
+parameters/Dead/internal_active = false
+parameters/Dead/request = 0
 parameters/Jumping/active = false
 parameters/Jumping/internal_active = false
 parameters/Jumping/request = 0

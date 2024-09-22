@@ -15,6 +15,7 @@ var Resources = {
 	"BATTLE_HEALTH_BAR": preload("res://resources/interfaces/battle_screen/modules/battle_health_bar/battle_health_bar.tscn"),
 	"BATTLE_POINTER": preload("res://resources/interfaces/battle_screen/modules/battle_pointer/battle_pointer.tscn"),
 	"BATTLE_WAIT_INDICATOR": preload("res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_indicator.tscn"),
+	"DAMAGE_INDICATOR": preload("res://resources/interfaces/battle_screen/modules/damage_indicator/damage_indicator.tscn"),
 	"KNIGHT": preload("res://resources/characters/player/knight/knight.tscn"),
 	"COWBOY": preload("res://resources/characters/player/cowboy/cowboy.tscn"),
 	"WOLF": preload("res://resources/characters/enemies/wolf/wolf.tscn"),

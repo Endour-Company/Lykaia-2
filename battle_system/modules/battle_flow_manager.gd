@@ -24,6 +24,10 @@ var ui_controller: UIController
 ## Defense modifier, will influence the character's total defense power.
 @export var defense_modifier: float = 1.25
 
+## Defense modifier while guarding, will influence the character's total
+## defense power.
+@export var defense_modifier_with_guard: float = 2.5
+
 
 ## Begins a character's turn
 func begin_turn(char_node: BaseCharacter):
@@ -45,9 +49,16 @@ func begin_turn(char_node: BaseCharacter):
 	## If acting character is a player, spawn battle pointer
 	## at targeted enemy and shows command buttons.
 	if chars_controller.is_player(acting_character) >= 0:
+		## If currently targeted enemy is dead, change target.
+		if chars_controller.get_enemy(index_target_enemy).is_dead:
+			index_target_enemy = chars_controller.get_next_enemy(index_target_enemy)
+		
+		## Spawns battle pointer
 		ui_controller.spawn_battle_pointer(
 			chars_controller.get_enemy(index_target_enemy).position
 		)
+		
+		## Shows command buttons
 		ui_controller.command_buttons.show_actions()
 	else:
 		## Initate enemy strategy
@@ -80,7 +91,8 @@ func end_turn():
 	## Respawns acting character's battle timer indicator
 	ui_controller.wait_bar.add_indicator(
 		acting_character.char_battle_indicator,
-		acting_character.battle_delay
+		acting_character.battle_delay,
+		acting_character.get_name()
 	)
 
 
@@ -114,28 +126,21 @@ func on_cancel_attack_signal():
 ## an attack from attack command buttons.
 ## Accepts the index of attack in attack_set array,
 ## and, optionally, the index of the target.
-func on_committed_attack_signal(index_attack: int, index_target: int = 0):
-	## Stores the attack target
-	var target: BaseCharacter
-	
+func on_committed_attack_signal(index_attack: int, target = null):
 	## Decreases character's energy by one.
 	chars_controller.decrease_energy(acting_character)
 	
-	## If the character is a player, sets the index_target to the targeted.
+	## If the character is a player, sets the target to enemy on index_target_enemy.
+	## Otherwise, use the given target.
 	if chars_controller.is_player(acting_character) >= 0:
-		index_target = index_target_enemy
-		
 		## Sets the attack target
-		target = chars_controller.get_enemy(index_target)
+		target = chars_controller.get_enemy(index_target_enemy)
 		
-		## If the player has runs out of energy, disabled attack choices
-		## in attack command buttons.
+		## If the player has runs out of energy or if enemy is dead,
+		## disables attack choices in attack command buttons.
 		if chars_controller.is_energy_empty(acting_character):
 			ui_controller.command_buttons.disable_attack_choices()
-	else:
-		## If the acting character is an enemy, sets a player as the attack
-		## target.
-		target = chars_controller.get_player(index_target)
+	
 	
 	## Sends attack command to CharactersController
 	chars_controller.attack(
@@ -152,6 +157,9 @@ func on_damage_signal(
 	attack_name: String,
 	target: BaseCharacter
 ):
+	## Disconnects damage signal
+	attacker.damage.disconnect(on_damage_signal)
+	
 	## Checks if attack hits
 	if _does_attack_hit(attacker.accuracy, target.evasion):
 		## Gets the attack's attack power
@@ -166,11 +174,37 @@ func on_damage_signal(
 		var total_damage = _calculate_damage(
 			attacker.strength,
 			target.defense,
-			attack_power
+			attack_power,
+			target.guarding
 		)
-		print(total_damage)
+		
+		## Spawns damage indicator at the target's position
+		ui_controller.spawn_damage_indicator(
+			str(total_damage),
+			target.position
+		)
+		
+		## Changes the target's health
+		target.health -= total_damage
 	else:
-		print("ATTACK MISSED")
+		## Spawns damage indicator at the target's position that
+		## indicates the attack missed.
+		ui_controller.spawn_damage_indicator(
+			"MISS",
+			target.position
+		)
+
+
+## Handles dead signal, emitted whenever a character has died in battle.
+## Removes battle timer, and plays dead animation.
+func on_dead_signal(char_node: BaseCharacter):
+	print(char_node.get_name() + "is DEAD")
+	## Pauses the character's battle timer and removes its timer indicator.
+	char_node.pause_battle_timer()
+	ui_controller.wait_bar.remove_indicator_of_char(char_node.get_name())
+	
+	## Plays death animation.
+	char_node.play_death_animation()
 
 
 ## Handles end attack signal.
@@ -210,14 +244,19 @@ func on_target_signal():
 func _calculate_damage(
 	attacker_strength: int,
 	target_defense: int,
-	attack_power: float
+	attack_power: float,
+	is_target_guarding: bool
 ):
 	## Calculates total attack power
 	var total_attack_power: float = \
 	attack_modifier * attacker_strength * attack_power
 	
 	## Calculates total defense power
-	var total_defense_power: float = defense_modifier * target_defense
+	var total_defense_power: float
+	if is_target_guarding:
+		total_defense_power = defense_modifier_with_guard * target_defense
+	else:
+		total_defense_power = defense_modifier * target_defense
 	
 	## Gets a random value to lastly modify total damage
 	var total_damage: float = total_attack_power - total_defense_power

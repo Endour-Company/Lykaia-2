@@ -32,7 +32,7 @@ var health: int :
 		## Sends death signal if remaining health has reached 0
 		if health == 0:
 			is_dead = true
-			death.emit()
+			death.emit(self)
 
 ## The character's energy (0-5), needed to take action in battle.
 var energy: int = 0 :
@@ -100,7 +100,7 @@ signal health_changed(health)
 signal energy_changed(energy)
 signal battle_action(node) ## Sent in-battle when it's this character's turn
 signal damage ## Sent in-battle to begin damage calculation
-signal death ## Sent if health reached 0
+signal death(node) ## Sent if health reached 0
 signal action_finished
 
 
@@ -149,6 +149,19 @@ func move_to(target_pos: Vector2):
 ## Pauses battle timer.
 func pause_battle_timer():
 	battle_timer.set_paused(true)
+
+
+## Plays death animation.
+func play_death_animation():
+	anim_tree.set(
+		"parameters/Dead/request",
+		AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	)
+
+
+## Removes battle timer.
+func remove_battle_timer():
+	battle_timer.queue_free()
 
 
 ## Resume battle timer.
@@ -274,4 +287,9 @@ func _on_animation_tree_animation_finished(anim_name):
 	## Sets is_moving to false and plays the next attack animation,
 	## if there is any.
 	is_moving = false
+	
+	## If anim_name is "dead", stop animation tree, else plays next animation.
+	if anim_name == "dead":
+		anim_tree.set_active(false)
+	
 	_play_next_attack_animation()

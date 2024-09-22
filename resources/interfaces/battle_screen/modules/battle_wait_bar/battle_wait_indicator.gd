@@ -4,6 +4,9 @@ class_name BattleWaitIndicator
 ## Class for battle wait indicator.
 ## Will spawn a texture, move that texture from A to B, infinitely
 
+## Stores the character's node name that is tied to this wait indicator.
+var char_node_name: String
+
 ## Stores origin and destination points
 var origin: Vector2 = Vector2(0,0)
 var dest: Vector2 = Vector2(0,0)

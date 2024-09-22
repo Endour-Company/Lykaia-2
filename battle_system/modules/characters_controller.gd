@@ -174,7 +174,7 @@ func initiate_enemy_strategy(acting_enemy: BaseEnemy):
 		CONNECT_ONE_SHOT
 	)
 	## Tells the enemy to take action
-	var action: String = acting_enemy.take_action(player_nodes)
+	var action: String = acting_enemy.take_action(player_nodes.duplicate())
 	
 	match action:
 		"attack":
@@ -237,6 +237,10 @@ func set_paused_battle_timers(is_paused: bool):
 		if not child is CharacterBody2D:
 			continue
 		
+		## Skips if character is dead
+		if child.is_dead:
+			continue
+		
 		match is_paused:
 			true:
 				child.pause_battle_timer()
@@ -293,7 +297,8 @@ func _setup_character(
 	## Adds indicator
 	ui_controller.wait_bar.add_indicator(
 		char_node.char_battle_indicator,
-		char_node.battle_delay
+		char_node.battle_delay,
+		char_node.get_name()
 	)
 	
 	## Places them on their positions
@@ -302,5 +307,6 @@ func _setup_character(
 	## Adds health bars
 	ui_controller.create_healthbar(char_node, is_enemy)
 	
-	## Connects battle signal
+	## Connects battle and dead signal
 	char_node.battle_action.connect(battle_flow_manager.begin_turn)
+	char_node.death.connect(battle_flow_manager.on_dead_signal)

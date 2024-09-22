@@ -22,6 +22,9 @@ var battle_pointer: Control
 ## Stores offset of battle pointer relative to character
 var battle_pointer_offset: Vector2 = Vector2(-32, -150)
 
+## Holds the scene of damage indicator
+var damage_indicator_scene: PackedScene = Utils.Resources["DAMAGE_INDICATOR"]
+
 ## UIController has to store BattleFlowManager
 var battle_flow_manager: BattleFlowManager
 
@@ -87,6 +90,19 @@ func spawn_battle_pointer(position):
 	
 	## Sets battle pointer's position
 	battle_pointer.set_position(position + battle_pointer_offset)
+
+
+## Spawns damage indicator with given text and at given position
+func spawn_damage_indicator(text: String, pos: Vector2):
+	## Stores offset
+	var offset: Vector2 = Vector2(0, -80)
+	
+	## Instantiates a damage indicator scene
+	var damage_indicator: Control = damage_indicator_scene.instantiate()
+	damage_indicator.setup(text, pos + offset)
+	
+	## Adds the scene to tree
+	battle_screen.add_child(damage_indicator)
 
 
 ## Removes battle pointer from scene

@@ -17,14 +17,15 @@ var indicator: PackedScene = Utils.Resources["BATTLE_WAIT_INDICATOR"]
 
 
 ## Adds new indicator
-func add_indicator(texture: Texture2D, time: float):
+func add_indicator(texture: Texture2D, time: float, char_node_name: String):
 	## Creates new indicator's node
 	var new_indicator: BattleWaitIndicator = indicator.instantiate()
 	
-	## Sets indicator's point, texture, and time
+	## Sets indicator's point, texture, time, and char's node name
 	new_indicator.set_points(origin, dest)
 	new_indicator.set_indicator_texture(texture)
 	new_indicator.set_time(time)
+	new_indicator.char_node_name = char_node_name
 	
 	## Append indicators to char_indicators and adds to scene
 	add_child(new_indicator)
@@ -33,6 +34,17 @@ func add_indicator(texture: Texture2D, time: float):
 ## Pauses all indicators
 func pause_indicators():
 	_set_paused(true)
+
+
+## Removes a given character's wait indicator.
+## Accepts a character's node name in the scene tree.
+func remove_indicator_of_char(char_node_name: String):
+	for child in get_children():
+		if not child is BattleWaitIndicator:
+			continue
+		
+		if child.char_node_name == char_node_name:
+			child.queue_free()
 
 
 ## Resumes all indicators

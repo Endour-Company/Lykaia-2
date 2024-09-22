@@ -149,13 +149,12 @@ func _calculate_weights_on_strength(
 ## Accepts an array of players, and returns the index of the chosen target.
 ## Returns -1 if fail to choose, e.g. when all players are dead.
 ## Can be overridden by derived class to create a different strategy.
-func _choose_target(player_nodes: Array) -> int :
+func _choose_target(player_nodes: Array) -> BaseCharacter :
 	## Filters dead players
-	player_nodes.filter(func(player): return !player.is_dead)
+	player_nodes = player_nodes.filter(func(player): return !player.is_dead)
 	
-	## Returns -1 if player_nodes array has become empty
-	if player_nodes.is_empty():
-		return -1
+	## Player arrays can not be empty
+	assert(!player_nodes.is_empty())
 	
 	## Declares initial weights of characters
 	var weights: Array = _setup_initial_weights(player_nodes.size())
@@ -166,7 +165,7 @@ func _choose_target(player_nodes: Array) -> int :
 	## Gets total weight of all characters
 	var total_weight: int = _calculate_total_weight(weights)
 	
-	return _choose_weighted_target(weights, total_weight)
+	return player_nodes[_choose_weighted_target(weights, total_weight)]
 
 
 ## Chooses a target using a weighted probability.
