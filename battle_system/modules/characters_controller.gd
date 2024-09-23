@@ -80,15 +80,20 @@ func add_characters(
 ## Using a given character, attacks a given enemy.
 func attack(
 	attacker: BaseCharacter,
-	attack_name: String,
-	target: BaseCharacter
+	attack_id: String,
+	target: BaseCharacter,
+	is_skill: bool = false
 ):
-	attacker.attack(attack_name, target)
+	## Handles if attack is a skill
+	if is_skill:
+		attacker.skill_attack(attack_id, target)
+	else:
+		attacker.attack(attack_id, target)
 	
 	## Connects damage signal to calculate hit chance and damage
 	attacker.damage.connect(
-		battle_flow_manager.on_damage_signal.bind(attacker, attack_name, target),
-		CONNECT_REFERENCE_COUNTED
+		battle_flow_manager.on_damage_signal,
+		CONNECT_ONE_SHOT+CONNECT_REFERENCE_COUNTED
 	)
 
 

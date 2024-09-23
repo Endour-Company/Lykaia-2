@@ -67,6 +67,9 @@ func begin_turn(char_node: BaseCharacter):
 
 ## Ends a character's turn
 func end_turn():
+	## Clears character's combo queue
+	acting_character.combo_queue.clear()
+	
 	## Moves character back to its original position if they're not already,
 	## and waits until they finished moving.
 	if not chars_controller.is_in_original_position(acting_character):
@@ -141,7 +144,6 @@ func on_committed_attack_signal(index_attack: int, target = null):
 		if chars_controller.is_energy_empty(acting_character):
 			ui_controller.command_buttons.disable_attack_choices()
 	
-	
 	## Sends attack command to CharactersController
 	chars_controller.attack(
 		acting_character,
@@ -154,19 +156,16 @@ func on_committed_attack_signal(index_attack: int, target = null):
 ## has initiated an attack and the damage calculation is supposed to happen.
 func on_damage_signal(
 	attacker: BaseCharacter,
-	attack_name: String,
+	attack_id: String,
 	target: BaseCharacter
 ):
-	## Disconnects damage signal
-	attacker.damage.disconnect(on_damage_signal)
-	
 	## Checks if attack hits
 	if _does_attack_hit(attacker.accuracy, target.evasion):
 		## Gets the attack's attack power
 		var attack_data: Dictionary = Utils.find_dictionary_in_array_with_value(
 			attacker.attack_set,
 			"id",
-			attack_name
+			attack_id
 		)
 		var attack_power: float = attack_data.get("power")
 		
@@ -180,18 +179,26 @@ func on_damage_signal(
 		
 		## Spawns damage indicator at the target's position
 		ui_controller.spawn_damage_indicator(
-			str(total_damage),
-			target.position
+			str(total_damage), target.position
 		)
 		
 		## Changes the target's health
 		target.health -= total_damage
+		
+		## Adds attack to combo queue
+		attacker.combo_queue.append(attack_id)
+		
+		## Checks for skill activation
+		var skill = attacker.get_fulfilled_skill()
+		if skill != null:
+			chars_controller.attack(
+				attacker, skill, target, true
+			)
 	else:
 		## Spawns damage indicator at the target's position that
 		## indicates the attack missed.
 		ui_controller.spawn_damage_indicator(
-			"MISS",
-			target.position
+			"MISS", target.position
 		)
 
 

@@ -66,8 +66,13 @@ var energy: int = 0 :
 ## Stores attacking position's offset relative to target enemy
 @export var attack_pos_offest: Vector2 = Vector2.ZERO
 
-## Stores attack queue
+## Stores attack & combo queue.
+## They store the same thing, but attack queue's element will be freed whenever
+## the attack has been done, but combo queue's element will only be freed
+## when the character has finished all their attacks. And only attacks that
+## connected will be added to combo queue.
 var attack_queue: Array = []
+var combo_queue: Array = []
 
 ## Stores whether character is moving/playing animation
 var is_moving: bool = false
@@ -78,6 +83,9 @@ var is_dead: bool = false
 ## Stores guarding state
 var guarding: bool = false
 
+## Stores target, used to emit damage signal
+var target: BaseCharacter
+
 ## Max energy of a character
 const MAX_ENERGY: int = 5
 
@@ -86,6 +94,9 @@ var battle_delay: float
 
 ## Holds character's AnimationTree to handle animation changes
 @onready var anim_tree: AnimationTree = $AnimationTree
+
+## Stores current animation
+var cur_anim_name: String
 
 ## Holds character's battle turn timer
 @onready var battle_timer: Timer = $BattleTurnTimer
@@ -99,18 +110,22 @@ var core_set: Array
 signal health_changed(health)
 signal energy_changed(energy)
 signal battle_action(node) ## Sent in-battle when it's this character's turn
-signal damage ## Sent in-battle to begin damage calculation
+signal damage(attacker, attack_id, target) ## Sent in-battle to begin damage calculation
+signal skill_damage ## Sent in-battle to begin damage calculation for skill
 signal death(node) ## Sent if health reached 0
 signal action_finished
 
 
 ## Attacks with given attack animation to given target enemy.
 func attack(
-	attack_name: String,
+	attack_id: String,
 	target: BaseCharacter
 ):
 	## Adds attack to queue
-	attack_queue.append(attack_name)
+	attack_queue.append(attack_id)
+	
+	## Stores target
+	self.target = target
 	
 	## If character is not currently moving and not in the correct 
 	## attacking position, move to the correct position first
@@ -123,6 +138,15 @@ func attack(
 			move_to(target_pos)
 		else:
 			_play_next_attack_animation()
+
+
+## Checks for any skills that can be activated with the current combo queue.
+## Returns the skill id if any pattern is fulfilled, otherwise returns null.
+func get_fulfilled_skill():
+	for skill in skill_set:
+		if combo_queue == skill["pattern"]:
+			return skill["id"]
+	return null
 
 
 ## Moves character to given position.
@@ -190,6 +214,16 @@ func set_stats(
 	self.evasion = evasion if evasion != null else self.evasion
 
 
+## Attacks with given skill animation to given target enemy.
+func skill_attack(
+	skill_id: String,
+	target: BaseCharacter
+):
+	print("ACTIVATES " + skill_id)
+	## Adds attack to attack queue but in front
+	attack_queue.push_front(skill_id)
+
+
 ## Calculates battle turn delay.
 func _calculate_battle_delay():
 	return 30.0 / randf_range(speed-1, speed+1)
@@ -202,6 +236,16 @@ func _get_attack_set():
 	
 	## Searches the data using the character's name
 	return Utils.find_dictionary_in_array_with_key(data, char_name)
+
+
+## Gets character's skill sets.
+func _get_skill_set():
+	## Reads and parses skill_set.json
+	var data: Array = Utils.parse_json_by_filepath(Utils.Path["SKILL_SET"])
+	
+	## Searches the data using the character's name
+	var skill_set = Utils.find_dictionary_in_array_with_key(data, char_name)
+	return skill_set if skill_set != null else []
 
 
 ## Handles player's health change (when they're attacked or healed).
@@ -254,8 +298,9 @@ func _ready():
 	## Sets health to max_health
 	health = max_health
 	
-	## Parse attack_set.json and gets this character's set
+	## Gets character's attack & skill sets
 	attack_set = _get_attack_set()
+	skill_set = _get_skill_set()
 	
 	## Start battle timer (also set it to one-shot)
 	battle_timer.set_one_shot(true)
@@ -270,7 +315,7 @@ func _start_battle_delay():
 
 ## Sends damage signal.
 func _send_damage_signal():
-	damage.emit()
+	damage.emit(self, cur_anim_name, target)
 
 
 ## Handles timeout of battle turn timer.
@@ -293,3 +338,9 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set_active(false)
 	
 	_play_next_attack_animation()
+
+
+## Handles when anim_player started playing an animation.
+## Stores the current anim_name as cur_anim_name.
+func _on_animation_tree_animation_started(anim_name):
+	cur_anim_name = anim_name

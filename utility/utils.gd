@@ -7,6 +7,7 @@ extends Node
 var Path = {
 	"ATTACK_SET": "res://resources/characters/modules/attack_set.json",
 	"BATTLE_SCENE": "res://battle_system/battle.tscn",
+	"SKILL_SET": "res://resources/characters/modules/skill_set.json",
 }
 
 

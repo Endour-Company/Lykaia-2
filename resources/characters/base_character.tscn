@@ -18,3 +18,4 @@ script = ExtResource("1_q60xy")
 
 [connection signal="timeout" from="BattleTurnTimer" to="." method="_on_battle_turn_timer_timeout"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="animation_started" from="AnimationTree" to="." method="_on_animation_tree_animation_started"]

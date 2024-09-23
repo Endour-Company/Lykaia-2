@@ -1,0 +1,55 @@
+[
+	{
+		"Knight": [
+			{
+				"id": "kn_s1",
+				"name": "Ground Thrust",
+				"desc": "Lorem ipsum",
+				"icon": "",
+				"power": 3.0,
+				"pattern": ["kn2", "kn1", "kn3"],
+				"unlocked": false,
+			},
+			{
+				"id": "kn_s2",
+				"name": "Dragon Pierce",
+				"desc": "Lorem ipsum",
+				"icon": "",
+				"power": 3.0,
+				"pattern": ["kn1", "kn3", "kn2"],
+				"unlocked": false,
+			},
+			{
+				"id": "kn_s3",
+				"name": "Demon Mode: Power Slash",
+				"desc": "Lorem ipsum",
+				"icon": "",
+				"power": 4.0,
+				"pattern": ["kn1", "kn3", "kn2", "kn2", "kn2"],
+				"unlocked": false,
+			}
+		]
+	},
+	{
+		"Cowboy": [
+			{
+				"id": "cb_s1",
+				"name": "Barrage Shot",
+				"desc": "Lorem ipsum",
+				"icon": "",
+				"power": 1.85,
+				"pattern": ["cb1", "cb2", "cb1", "cb2"],
+				"unlocked": false,
+			},
+			{
+				"id": "cb_s2",
+				"name": "Laser Shot",
+				"desc": "Lorem ipsum",
+				"icon": "",
+				"power": 4.0,
+				"pattern": ["cb1", "cb2", "cb1", "cb2", "cb2"],
+				"unlocked": false,
+			}
+		]
+	},
+]

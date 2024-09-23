@@ -20,3 +20,6 @@ layer = 5
 
 [node name="BattleFlowManager" type="Node" parent="."]
 script = ExtResource("5_xns7u")
+attack_modifier = null
+defense_modifier = null
+defense_modifier_with_guard = null
