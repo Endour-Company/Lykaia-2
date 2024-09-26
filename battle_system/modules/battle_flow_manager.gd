@@ -58,6 +58,11 @@ func begin_turn(char_node: BaseCharacter):
 			chars_controller.get_enemy(index_target_enemy).position
 		)
 		
+		## Shows player turn indicator
+		ui_controller.player_turn_indicator.show_sprite(
+			Utils.Resources["PLAYER_TURN_" + acting_character.char_name.to_upper()]
+		)
+		
 		## Shows command buttons
 		ui_controller.command_buttons.show_actions()
 	else:
@@ -76,10 +81,11 @@ func end_turn():
 		chars_controller.move_to_original_position(acting_character)
 		await acting_character.action_finished
 	
-	## If acting character is a player, despawns battle pointer
-	## and hides command buttons.
+	## If acting character is a player, despawns battle pointer,
+	## hides pplayer turn indicator, and hides command buttons.
 	if chars_controller.is_player(acting_character) >= 0:
 		ui_controller.remove_battle_pointer()
+		ui_controller.player_turn_indicator.hide_sprite()
 		ui_controller.command_buttons.hide_actions()
 	
 	## Waits 0.7 secs to give some delay before ending the turn
@@ -143,6 +149,9 @@ func on_committed_attack_signal(index_attack: int, target = null):
 		## disables attack choices in attack command buttons.
 		if chars_controller.is_energy_empty(acting_character):
 			ui_controller.command_buttons.disable_attack_choices()
+			ui_controller.command_buttons.set_input_state(
+				CommandButtons.INPUT_STATES.ATTACK_NO_ENERGY
+			)
 	
 	## Sends attack command to CharactersController
 	chars_controller.attack(

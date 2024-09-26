@@ -21,25 +21,25 @@ var enemy_nodes: Array
 @export_category("Players")
 @export_group("Positions")
 ## Stores the player's battle position when there's only one hero.
-@export var SINGLE_PLAYER_POS = Vector2(400, 500)
+@export var SINGLE_PLAYER_POS = Vector2(600, 500)
 
 ## Stores the players' battle position when there are 2-3 heroes.
 @export var MULTIPLE_PLAYER_POS = [
-	Vector2(500, 285),
-	Vector2(500, 750),
-	Vector2(300, 525)
+	Vector2(700, 285),
+	Vector2(700, 750),
+	Vector2(500, 525)
 ]
 
 @export_category("Enemies")
 @export_group("Positions")
 ## Stores the enemy's battle position if there's only one enemy.
-@export var SINGLE_ENEMY_POS = Vector2(1100, 500)
+@export var SINGLE_ENEMY_POS = Vector2(1200, 500)
 
 ## Stores the players' battle position when there are 2-3 enemies.
 @export var MULTIPLE_ENEMY_POS = [
-	Vector2(1100, 285),
-	Vector2(1100, 750),
-	Vector2(1300, 525)
+	Vector2(1200, 285),
+	Vector2(1200, 750),
+	Vector2(1400, 525)
 ]
 
 

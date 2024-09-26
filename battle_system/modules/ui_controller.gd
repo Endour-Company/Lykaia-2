@@ -9,6 +9,10 @@ class_name UIController
 ## Holds the battle wait bar interface for handling character's indicators
 @onready var wait_bar: BattleWaitBar = $BattleScreen/BattleWaitBar
 
+## Holds the player turn indicator node for indicating which turn
+## of the player's characters it is.
+@onready var player_turn_indicator: PlayerTurnIndicator = $BattleScreen/PlayerTurnIndicator
+
 ## Holds the battle command buttons for handling showing and hiding buttons
 @onready var command_buttons: CommandButtons = $BattleScreen/CommandButtons
 

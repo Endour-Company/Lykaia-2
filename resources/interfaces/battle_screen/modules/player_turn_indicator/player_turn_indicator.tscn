@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfaut8ltx2tjc"]
+
+[ext_resource type="Script" path="res://resources/interfaces/battle_screen/modules/player_turn_indicator/player_turn_indicator.gd" id="1_2qyc1"]
+
+[node name="PlayerTurnIndicator" type="Control"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("1_2qyc1")
+
+[node name="PlayerTurnSprite" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -580.0
+offset_right = -124.0
+offset_bottom = 162.0
+grow_vertical = 0
