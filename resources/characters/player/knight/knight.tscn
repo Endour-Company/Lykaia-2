@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cwkiq6excq1m3"]
+[gd_scene load_steps=34 format=3 uid="uid://cwkiq6excq1m3"]
 
 [ext_resource type="PackedScene" uid="uid://dd5qgq0ydw8nt" path="res://resources/characters/player/base_player.tscn" id="1_l55t6"]
 [ext_resource type="Texture2D" uid="uid://d1pgjh5lg02k4" path="res://resources/characters/player/knight/battle_indicator_knight.png" id="2_bcodp"]
@@ -253,6 +253,144 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_gn1hx"]
+resource_name = "kn_s1"
+length = 4.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.3, 1.5, 2, 2.5, 2.9, 3.4, 3.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 30), Vector2(0, 30), Vector2(0, 0), Vector2(20, -100), Vector2(30, -125), Vector2(40, 30), Vector2(40, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.3, 1.5, 2, 2.5, 2.9, 3.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1, 0.7), Vector2(1, 0.7), Vector2(1, 1), Vector2(1, 0.8), Vector2(1, 1), Vector2(1, 0.6), Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"_send_damage_signal"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ea2h1"]
+resource_name = "kn_s2"
+length = 2.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.15, 1.2, 1.25, 1.5, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-5, -5), Vector2(5, 5), Vector2(0, -5), Vector2(-10, 5), Vector2(-10, -5), Vector2(0, 5), Vector2(-5, -5), Vector2(-15, 5), Vector2(-15, -5), Vector2(-5, 5), Vector2(-10, -5), Vector2(-20, 5), Vector2(-20, -5), Vector2(-10, 5), Vector2(-10, -5), Vector2(-20, 5), Vector2(-20, 0), Vector2(95, 0), Vector2(90, 0), Vector2(100, 0), Vector2(100, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"_send_damage_signal"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_uhthv"]
+resource_name = "kn_s3"
+length = 2.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-5, -5), Vector2(5, 5), Vector2(0, -5), Vector2(-10, 5), Vector2(-10, -5), Vector2(0, 5), Vector2(-5, -5), Vector2(-15, 5), Vector2(-15, -5), Vector2(-5, 5), Vector2(-10, -5), Vector2(-20, 5), Vector2(-20, -5), Vector2(-10, 5), Vector2(-10, -5), Vector2(-20, 5), Vector2(-20, 0), Vector2(295, 0), Vector2(290, 0), Vector2(300, 0), Vector2(300, 0), Vector2(5, 0), Vector2(10, 0), Vector2(0, 0), Vector2(0, 0), Vector2(295, 0), Vector2(290, 0), Vector2(300, 0), Vector2(300, 0), Vector2(5, 0), Vector2(10, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.25, 1.45, 1.65, 1.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [true],
+"method": &"_send_damage_signal"
+}, {
+"args": [true],
+"method": &"_send_damage_signal"
+}, {
+"args": [true],
+"method": &"_send_damage_signal"
+}, {
+"args": [true],
+"method": &"_send_damage_signal"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u27dj"]
 _data = {
 "RESET": SubResource("Animation_y4gyp"),
@@ -261,13 +399,25 @@ _data = {
 "jump": SubResource("Animation_d0lfs"),
 "kn1": SubResource("Animation_32bhk"),
 "kn2": SubResource("Animation_n1i4d"),
-"kn3": SubResource("Animation_h85wu")
+"kn3": SubResource("Animation_h85wu"),
+"kn_s1": SubResource("Animation_gn1hx"),
+"kn_s2": SubResource("Animation_ea2h1"),
+"kn_s3": SubResource("Animation_uhthv")
 }
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_hnm7i"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g4u0c"]
+animation = &"kn_s3"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cowio"]
 animation = &"kn3"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4qugo"]
+animation = &"kn_s2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8ykto"]
+animation = &"kn_s1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fvbrd"]
 animation = &"idle"
@@ -296,11 +446,24 @@ filters = [".", "Sprite2D:rotation"]
 filter_enabled = true
 filters = [".", "Sprite2D:rotation"]
 
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_fwphk"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_mn1u3"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_1w848"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c8k6x"]
+graph_offset = Vector2(1100.77, -12.1785)
 nodes/Dead/node = SubResource("AnimationNodeOneShot_hnm7i")
-nodes/Dead/position = Vector2(1260, 60)
+nodes/Dead/position = Vector2(1860, 60)
+"nodes/Demon Slash/node" = SubResource("AnimationNodeAnimation_g4u0c")
+"nodes/Demon Slash/position" = Vector2(1480, 360)
 "nodes/Downward Slash/node" = SubResource("AnimationNodeAnimation_cowio")
 "nodes/Downward Slash/position" = Vector2(880, 360)
+"nodes/Dragon Pierce/node" = SubResource("AnimationNodeAnimation_4qugo")
+"nodes/Dragon Pierce/position" = Vector2(1280, 360)
+"nodes/Ground Thrust/node" = SubResource("AnimationNodeAnimation_8ykto")
+"nodes/Ground Thrust/position" = Vector2(1080, 360)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_fvbrd")
 nodes/Idle/position = Vector2(220, 60)
 nodes/Jump/node = SubResource("AnimationNodeAnimation_ogjd6")
@@ -312,15 +475,21 @@ nodes/Jumping/position = Vector2(460, 60)
 "nodes/Upward Slash/node" = SubResource("AnimationNodeAnimation_hanvc")
 "nodes/Upward Slash/position" = Vector2(500, 360)
 nodes/dead/node = SubResource("AnimationNodeAnimation_8gxk1")
-nodes/dead/position = Vector2(1100, 360)
+nodes/dead/position = Vector2(1680, 360)
 nodes/kn1/node = SubResource("AnimationNodeOneShot_e3hg6")
 nodes/kn1/position = Vector2(660, 60)
 nodes/kn2/node = SubResource("AnimationNodeOneShot_m4bp8")
 nodes/kn2/position = Vector2(860, 60)
 nodes/kn3/node = SubResource("AnimationNodeOneShot_3gybh")
 nodes/kn3/position = Vector2(1060, 60)
-nodes/output/position = Vector2(1440, 120)
-node_connections = [&"Dead", 0, &"kn3", &"Dead", 1, &"dead", &"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"kn1", 0, &"Jumping", &"kn1", 1, &"Upward Slash", &"kn2", 0, &"kn1", &"kn2", 1, &"Thrust Attack", &"kn3", 0, &"kn2", &"kn3", 1, &"Downward Slash", &"output", 0, &"Dead"]
+nodes/kn_s1/node = SubResource("AnimationNodeOneShot_fwphk")
+nodes/kn_s1/position = Vector2(1260, 60)
+nodes/kn_s2/node = SubResource("AnimationNodeOneShot_mn1u3")
+nodes/kn_s2/position = Vector2(1460, 60)
+nodes/kn_s3/node = SubResource("AnimationNodeOneShot_1w848")
+nodes/kn_s3/position = Vector2(1660, 60)
+nodes/output/position = Vector2(2080, 140)
+node_connections = [&"Dead", 0, &"kn_s3", &"Dead", 1, &"dead", &"Jumping", 0, &"Idle", &"Jumping", 1, &"Jump", &"kn1", 0, &"Jumping", &"kn1", 1, &"Upward Slash", &"kn2", 0, &"kn1", &"kn2", 1, &"Thrust Attack", &"kn3", 0, &"kn2", &"kn3", 1, &"Downward Slash", &"kn_s1", 0, &"kn3", &"kn_s1", 1, &"Ground Thrust", &"kn_s2", 0, &"kn_s1", &"kn_s2", 1, &"Dragon Pierce", &"kn_s3", 0, &"kn_s2", &"kn_s3", 1, &"Demon Slash", &"output", 0, &"Dead"]
 
 [node name="Knight" instance=ExtResource("1_l55t6")]
 position = Vector2(0, -16.4283)
@@ -363,3 +532,12 @@ parameters/kn2/request = 0
 parameters/kn3/active = false
 parameters/kn3/internal_active = false
 parameters/kn3/request = 0
+parameters/kn_s1/active = false
+parameters/kn_s1/internal_active = false
+parameters/kn_s1/request = 0
+parameters/kn_s2/active = false
+parameters/kn_s2/internal_active = false
+parameters/kn_s2/request = 0
+parameters/kn_s3/active = false
+parameters/kn_s3/internal_active = false
+parameters/kn_s3/request = 0

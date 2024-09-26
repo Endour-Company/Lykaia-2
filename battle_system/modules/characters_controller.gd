@@ -89,12 +89,6 @@ func attack(
 		attacker.skill_attack(attack_id, target)
 	else:
 		attacker.attack(attack_id, target)
-	
-	## Connects damage signal to calculate hit chance and damage
-	attacker.damage.connect(
-		battle_flow_manager.on_damage_signal,
-		CONNECT_ONE_SHOT+CONNECT_REFERENCE_COUNTED
-	)
 
 
 ## Decreases character's energy by given value.
@@ -312,6 +306,7 @@ func _setup_character(
 	## Adds health bars
 	ui_controller.create_healthbar(char_node, is_enemy)
 	
-	## Connects battle and dead signal
+	## Connects battle, damage, and dead signal
 	char_node.battle_action.connect(battle_flow_manager.begin_turn)
+	char_node.damage.connect(battle_flow_manager.on_damage_signal)
 	char_node.death.connect(battle_flow_manager.on_dead_signal)

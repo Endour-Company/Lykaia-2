@@ -208,7 +208,7 @@ node_connections = [&"Dead", 0, &"w1", &"Dead", 1, &"Animation", &"Jumping", 0, 
 [node name="Wolf" instance=ExtResource("1_pur18")]
 char_name = "Wolf"
 char_battle_indicator = ExtResource("2_l1dne")
-max_health = 150
+max_health = 900
 strength = 8
 defense = 5
 speed = 6

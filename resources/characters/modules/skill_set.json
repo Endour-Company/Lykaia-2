@@ -37,7 +37,7 @@
 				"name": "Barrage Shot",
 				"desc": "Lorem ipsum",
 				"icon": "",
-				"power": 1.85,
+				"power": 1.25,
 				"pattern": ["cb1", "cb2", "cb1", "cb2"],
 				"unlocked": false,
 			},

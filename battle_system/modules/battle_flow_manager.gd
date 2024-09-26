@@ -157,13 +157,15 @@ func on_committed_attack_signal(index_attack: int, target = null):
 func on_damage_signal(
 	attacker: BaseCharacter,
 	attack_id: String,
-	target: BaseCharacter
+	target: BaseCharacter,
+	is_skill: bool = false,
 ):
-	## Checks if attack hits
-	if _does_attack_hit(attacker.accuracy, target.evasion):
+	## Checks if attack hits, skill will always hit
+	if is_skill or _does_attack_hit(attacker.accuracy, target.evasion):
 		## Gets the attack's attack power
+		var dataset: Array = attacker.skill_set if is_skill else attacker.attack_set
 		var attack_data: Dictionary = Utils.find_dictionary_in_array_with_value(
-			attacker.attack_set,
+			dataset,
 			"id",
 			attack_id
 		)
@@ -184,6 +186,10 @@ func on_damage_signal(
 		
 		## Changes the target's health
 		target.health -= total_damage
+		
+		## If attack was a skill, ignores the codes below
+		if is_skill:
+			return
 		
 		## Adds attack to combo queue
 		attacker.combo_queue.append(attack_id)

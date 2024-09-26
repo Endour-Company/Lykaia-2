@@ -110,8 +110,7 @@ var core_set: Array
 signal health_changed(health)
 signal energy_changed(energy)
 signal battle_action(node) ## Sent in-battle when it's this character's turn
-signal damage(attacker, attack_id, target) ## Sent in-battle to begin damage calculation
-signal skill_damage ## Sent in-battle to begin damage calculation for skill
+signal damage(attacker, attack_id, target, is_skill) ## Sent in-battle to begin damage calculation
 signal death(node) ## Sent if health reached 0
 signal action_finished
 
@@ -143,6 +142,7 @@ func attack(
 ## Checks for any skills that can be activated with the current combo queue.
 ## Returns the skill id if any pattern is fulfilled, otherwise returns null.
 func get_fulfilled_skill():
+	print(combo_queue)
 	for skill in skill_set:
 		if combo_queue == skill["pattern"]:
 			return skill["id"]
@@ -297,6 +297,7 @@ func _play_next_attack_animation():
 func _ready():
 	## Sets health to max_health
 	health = max_health
+	energy = 5
 	
 	## Gets character's attack & skill sets
 	attack_set = _get_attack_set()
@@ -314,8 +315,8 @@ func _start_battle_delay():
 
 
 ## Sends damage signal.
-func _send_damage_signal():
-	damage.emit(self, cur_anim_name, target)
+func _send_damage_signal(is_skill: bool = false):
+	damage.emit(self, cur_anim_name, target, is_skill)
 
 
 ## Handles timeout of battle turn timer.
