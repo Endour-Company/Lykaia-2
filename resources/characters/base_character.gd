@@ -26,6 +26,11 @@ var health: int :
 	get:
 		return health
 	set(value):
+		## Ignores health change if character is dead.
+		if is_dead:
+			return
+		
+		## Sets health value and makes sure that it doesn't overflow/underflow.
 		health = _on_health_changed(value)
 		health_changed.emit(health)
 		

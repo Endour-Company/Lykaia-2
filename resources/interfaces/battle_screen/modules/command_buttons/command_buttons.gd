@@ -9,6 +9,7 @@ enum INPUT_STATES {
 	FORBIDDEN,
 	ACTION,
 	ATTACK,
+	ATTACK_FORBID_CANCEL,
 	ATTACK_NO_ENERGY,
 }
 var input_state: int = INPUT_STATES.FORBIDDEN
@@ -33,6 +34,8 @@ var attack_count: int
 @onready var prompt2: TextureRect = $Action2PromptIcon
 @onready var prompt3: TextureRect = $Action3PromptIcon
 @onready var prompt4: TextureRect = $Action4PromptIcon
+@onready var prompt_trigger_l1: TextureRect = $AltAction1PromptIcon
+@onready var prompt_trigger_r1: TextureRect = $AltAction2PromptIcon
 
 ## Holds some anchor point values for buttons, etc
 @export_group("General Anchor Points")
@@ -49,6 +52,7 @@ var attack_count: int
 ## Holds some anchor point values for input prompt icons
 @export_group("Anchor Points for Input Prompts")
 @export_range(0,1) var prompt_top_anchor: float = 0.35
+@export_range(0,1) var prompt_top_anchor_alt: float = 0.2
 @export_range(0,1) var prompt_right_anchor: float = 0.65
 @export_range(0,1) var prompt_bottom_anchor: float = 0.65
 @export_range(0,1) var prompt_left_anchor: float = 0.35
@@ -112,7 +116,8 @@ func hide_center_texture(current_tween = null):
 func show_input_prompts(
 	current_tween = null,
 	main_action_count: int = 4,
-	show_trigger: bool = true
+	show_trigger_l1: bool = false,
+	show_trigger_r1: bool = false
 ):
 	## This method is used with other methods that use tween most of the time,
 	## so only create a new tween if current_tween is null.
@@ -149,6 +154,25 @@ func show_input_prompts(
 		prompt4, "anchor_right", prompt_left_anchor, anim_dur
 	).from(center_anchor)
 	tween.tween_property(prompt4, "modulate:a", 1, anim_dur).from(0)
+	
+	## Animates trigger icons
+	if show_trigger_l1:
+		tween.tween_property(
+			prompt_trigger_l1, "anchor_right", left_anchor, anim_dur
+		).from(center_anchor)
+		tween.tween_property(
+			prompt_trigger_l1, "anchor_bottom", prompt_top_anchor_alt, anim_dur
+		).from(center_anchor)
+		tween.tween_property(prompt_trigger_l1, "modulate:a", 1, anim_dur).from(0)
+	
+	if show_trigger_r1:
+		tween.tween_property(
+			prompt_trigger_r1, "anchor_left", right_anchor, anim_dur
+		).from(center_anchor)
+		tween.tween_property(
+			prompt_trigger_r1, "anchor_bottom", prompt_top_anchor_alt, anim_dur
+		).from(center_anchor)
+		tween.tween_property(prompt_trigger_r1, "modulate:a", 1, anim_dur).from(0)
 
 
 ## Hides input prompt icons.
@@ -156,8 +180,6 @@ func show_input_prompts(
 ## and main_action_count controls how many button prompts to hide (1-4).
 func hide_input_prompts(
 	current_tween = null,
-	main_action_count: int = 4,
-	hide_trigger: bool = false
 ):
 	## This method is used together with other methods that use tween most of
 	## the time, so only create a new tween if current_tween is null.
@@ -170,30 +192,43 @@ func hide_input_prompts(
 	## Sets tween parallel
 	tween.set_parallel(true)
 	
-	## Animates input prompt icons
-	if main_action_count >= 1:
-		tween.tween_property(
-			prompt1, "anchor_top", center_anchor, anim_dur
-		)
-		tween.tween_property(prompt1, "modulate:a", 0, anim_dur)
+	## Animates hiding input prompt icons
+	tween.tween_property(
+		prompt1, "anchor_top", center_anchor, anim_dur
+	)
+	tween.tween_property(prompt1, "modulate:a", 0, anim_dur)
 	
-	if main_action_count >= 2:
-		tween.tween_property(
-			prompt2, "anchor_right", center_anchor, anim_dur
-		)
-		tween.tween_property(prompt2, "modulate:a", 0, anim_dur)
+	tween.tween_property(
+		prompt2, "anchor_right", center_anchor, anim_dur
+	)
+	tween.tween_property(prompt2, "modulate:a", 0, anim_dur)
 	
-	if main_action_count >= 3:
-		tween.tween_property(
-			prompt3, "anchor_bottom", center_anchor, anim_dur
-		)
-		tween.tween_property(prompt3, "modulate:a", 0, anim_dur)
+	tween.tween_property(
+		prompt3, "anchor_bottom", center_anchor, anim_dur
+	)
+	tween.tween_property(prompt3, "modulate:a", 0, anim_dur)
 	
-	## Prompt 4 would always be hidden.
 	tween.tween_property(
 		prompt4, "anchor_left", center_anchor, anim_dur
 	)
 	tween.tween_property(prompt4, "modulate:a", 0, anim_dur)
+	
+	## Animates hiding trigger icons
+	tween.tween_property(
+		prompt_trigger_l1, "anchor_left", center_anchor, anim_dur
+	)
+	tween.tween_property(
+		prompt_trigger_l1, "anchor_top", center_anchor, anim_dur
+	)
+	tween.tween_property(prompt_trigger_l1, "modulate:a", 0, anim_dur)
+	
+	tween.tween_property(
+		prompt_trigger_r1, "anchor_right", center_anchor, anim_dur
+	)
+	tween.tween_property(
+		prompt_trigger_r1, "anchor_top", center_anchor, anim_dur
+	)
+	tween.tween_property(prompt_trigger_r1, "modulate:a", 0, anim_dur)
 #endregion
 
 
@@ -249,7 +284,7 @@ func show_actions(move_center_texture: bool = true):
 	tween.tween_property(target_btn, "modulate:a", 1, anim_dur).from(0)
 	
 	## Shows input prompts
-	show_input_prompts(tween)
+	show_input_prompts(tween, 4, true, true)
 	
 	## Enables all buttons when tween is finished and change input state
 	tween.set_parallel(false)
@@ -346,7 +381,7 @@ func show_attack_commands(attack_set: Array):
 	tween.tween_property(cancel_attack_btn, "modulate:a", 1, anim_dur).from(0)
 	
 	## Shows input prompt icons
-	show_input_prompts(tween, attack_count)
+	show_input_prompts(tween, attack_count, true, false)
 	
 	## Enables all attack buttons when tween is finished and change input state
 	tween.set_parallel(false)
@@ -407,7 +442,7 @@ func hide_attack_commands(move_center_texture: bool = false):
 	tween.tween_property(cancel_attack_btn, "modulate:a", 0, anim_dur).from(1)
 	
 	## Hides input prompt icons
-	hide_input_prompts(tween, attack_count)
+	hide_input_prompts(tween)
 	
 	## Moves center texture to bottom right when needed
 	if move_center_texture:
@@ -454,7 +489,7 @@ func _process(delta):
 		match input_state:
 			INPUT_STATES.ACTION:
 				_on_attack_button_pressed()
-			INPUT_STATES.ATTACK:
+			INPUT_STATES.ATTACK, INPUT_STATES.ATTACK_FORBID_CANCEL:
 				_on_attack_command_pressed(0)
 	elif Input.is_action_just_pressed("action2"):
 		_play_button_click_animation(prompt2)
@@ -463,7 +498,7 @@ func _process(delta):
 		match input_state:
 			INPUT_STATES.ACTION:
 				pass
-			INPUT_STATES.ATTACK:
+			INPUT_STATES.ATTACK, INPUT_STATES.ATTACK_FORBID_CANCEL:
 				_on_attack_command_pressed(1)
 	elif Input.is_action_just_pressed("action3"):
 		_play_button_click_animation(prompt3)
@@ -472,7 +507,7 @@ func _process(delta):
 		match input_state:
 			INPUT_STATES.ACTION:
 				pass
-			INPUT_STATES.ATTACK:
+			INPUT_STATES.ATTACK, INPUT_STATES.ATTACK_FORBID_CANCEL:
 				_on_attack_command_pressed(2)
 	elif Input.is_action_just_pressed("action4"):
 		_play_button_click_animation(prompt4)
@@ -481,10 +516,17 @@ func _process(delta):
 		match input_state:
 			INPUT_STATES.ACTION:
 				_on_guard_button_pressed()
+			INPUT_STATES.ATTACK_FORBID_CANCEL, INPUT_STATES.ATTACK_NO_ENERGY :
+				_on_end_attack_button_pressed()
+	elif Input.is_action_just_pressed("action_trigger1"):
+		_play_button_click_animation(prompt_trigger_l1)
+		
+		## L1 trigger corresponds to Target (MAIN) and Cancel Attack (ATTACK)
+		match input_state:
+			INPUT_STATES.ACTION:
+				_on_target_button_pressed()
 			INPUT_STATES.ATTACK:
-				_on_end_attack_button_pressed()
-			INPUT_STATES.ATTACK_NO_ENERGY:
-				_on_end_attack_button_pressed()
+				_on_cancel_attack_button_pressed()
 
 
 ## Plays button click animation.
@@ -537,10 +579,17 @@ func _on_target_button_pressed():
 
 
 func _on_attack_button_pressed():
+	## Sets input state
+	set_input_state(INPUT_STATES.ATTACK)
+	
+	## Emits corresponding signal
 	attack_pressed.emit()
 
 
 func _on_attack_command_pressed(index: int):
+	## Disables cancel attack button after initial attack.
+	set_input_state(INPUT_STATES.ATTACK_FORBID_CANCEL)
+	
 	## Disables cancel attack button and enables end attack button
 	cancel_attack_btn.set_disabled(true)
 	end_attack_btn.set_disabled(false)

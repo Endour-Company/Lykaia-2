@@ -63,4 +63,3 @@ func _move_texture():
 	## Begins animation using tween
 	tween = create_tween()
 	tween.tween_property(self, "position", dest, time).from(origin)
-	tween.tween_callback(queue_free)

@@ -13,6 +13,9 @@ class_name UIController
 ## of the player's characters it is.
 @onready var player_turn_indicator: PlayerTurnIndicator = $BattleScreen/PlayerTurnIndicator
 
+## Holds the combo prompt node for controlling buttons that appears in prompt.
+@onready var combo_prompt: ComboPrompt = $BattleScreen/ComboPrompt
+
 ## Holds the battle command buttons for handling showing and hiding buttons
 @onready var command_buttons: CommandButtons = $BattleScreen/CommandButtons
 
@@ -58,21 +61,38 @@ func create_healthbar(char_node: BaseCharacter, is_enemy: bool):
 
 ## Connects command button signals
 func connect_signals():
+	## Connects the signal of when the main attack button is pressed,
+	## to transition to attack mode.
 	command_buttons.attack_pressed.connect(
 		battle_flow_manager.on_attack_signal
 	)
+	
+	## Connects the signal of when player has chosen an attack.
 	command_buttons.attack.connect(
 		battle_flow_manager.on_committed_attack_signal
 	)
+	command_buttons.attack.connect(
+		combo_prompt.add_button
+	)
+	
+	## Connects the end attack signal, to end a combo.
 	command_buttons.end_attack.connect(
 		battle_flow_manager.on_end_attack_signal
 	)
+	
+	## Connects the cancel attack signal, to cancel and go back to main mode.
+	## This can only happen when the attack is in attack mode, but
+	## has not chosen any attack yet.
 	command_buttons.cancel_attack.connect(
 		battle_flow_manager.on_cancel_attack_signal
 	)
+	
+	## Connects the guard signal, to set guard mode of character.
 	command_buttons.guard_pressed.connect(
 		battle_flow_manager.on_guard_signal
 	)
+	
+	## Connects the target signal, to change targeted enemy.
 	command_buttons.target_pressed.connect(
 		battle_flow_manager.on_target_signal
 	)

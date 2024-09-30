@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://pjufv2tcmypc"]
+[gd_scene load_steps=5 format=3 uid="uid://pjufv2tcmypc"]
 
 [ext_resource type="PackedScene" uid="uid://tsoq6n20kqwi" path="res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_bar.tscn" id="1_ofv0c"]
 [ext_resource type="PackedScene" uid="uid://6e26yg70j0sq" path="res://resources/interfaces/battle_screen/modules/command_buttons/command_buttons.tscn" id="2_v2sy2"]
 [ext_resource type="PackedScene" uid="uid://dfaut8ltx2tjc" path="res://resources/interfaces/battle_screen/modules/player_turn_indicator/player_turn_indicator.tscn" id="3_wg6tk"]
+[ext_resource type="PackedScene" uid="uid://b0raffnebwkf4" path="res://resources/interfaces/battle_screen/modules/combo_prompt/combo_prompt.tscn" id="4_ieq24"]
 
 [node name="BattleScreen" type="CanvasLayer"]
 
@@ -22,3 +23,10 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="PlayerTurnIndicator" parent="." instance=ExtResource("3_wg6tk")]
+
+[node name="ComboPrompt" parent="." instance=ExtResource("4_ieq24")]
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.9
+anchor_right = 0.25
+anchor_bottom = 0.9

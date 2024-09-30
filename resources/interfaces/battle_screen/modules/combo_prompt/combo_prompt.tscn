@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0raffnebwkf4"]
+
+[ext_resource type="Texture2D" uid="uid://cavt0yr00bdr0" path="res://resources/interfaces/input_prompt_icons/playstation_button_cross.png" id="1_mawy7"]
+[ext_resource type="Script" path="res://resources/interfaces/battle_screen/modules/combo_prompt/combo_prompt.gd" id="1_v6cvl"]
+[ext_resource type="Texture2D" uid="uid://dyv6opnorby48" path="res://resources/interfaces/input_prompt_icons/playstation_button_circle.png" id="2_rmsh3"]
+[ext_resource type="Texture2D" uid="uid://qlr0snwmj18x" path="res://resources/interfaces/input_prompt_icons/playstation_button_triangle.png" id="3_sig15"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0auv"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0.431373)
+
+[node name="ComboPrompt" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_v6cvl")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(400, 74)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n0auv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_mawy7")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_rmsh3")
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_sig15")
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_sig15")
+
+[node name="TextureRect5" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_rmsh3")

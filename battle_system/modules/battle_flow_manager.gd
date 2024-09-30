@@ -34,6 +34,9 @@ func begin_turn(char_node: BaseCharacter):
 	## Sets acting character
 	acting_character = char_node
 	
+	## Removes currenct character's turn timer indicator
+	ui_controller.wait_bar.remove_indicator_of_char(acting_character.get_name())
+	
 	## Pauses all characters' turn timer
 	chars_controller.set_paused_battle_timers(true)
 	
@@ -82,10 +85,12 @@ func end_turn():
 		await acting_character.action_finished
 	
 	## If acting character is a player, despawns battle pointer,
-	## hides pplayer turn indicator, and hides command buttons.
+	## hides pplayer turn indicator, hides combo prompt,
+	## and hides command buttons.
 	if chars_controller.is_player(acting_character) >= 0:
 		ui_controller.remove_battle_pointer()
 		ui_controller.player_turn_indicator.hide_sprite()
+		ui_controller.combo_prompt.clear()
 		ui_controller.command_buttons.hide_actions()
 	
 	## Waits 0.7 secs to give some delay before ending the turn
