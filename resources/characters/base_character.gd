@@ -116,6 +116,7 @@ signal health_changed(health)
 signal energy_changed(energy)
 signal battle_action(node) ## Sent in-battle when it's this character's turn
 signal damage(attacker, attack_id, target, is_skill) ## Sent in-battle to begin damage calculation
+signal skill_activated(skill_name) ## Sent in-battle when skill is activated, before playing the corresponding anim
 signal death(node) ## Sent if health reached 0
 signal action_finished
 
@@ -321,7 +322,21 @@ func _start_battle_delay():
 
 ## Sends damage signal.
 func _send_damage_signal(is_skill: bool = false):
-	damage.emit(self, cur_anim_name, target, is_skill)
+	var attack_id: String = cur_anim_name ## May also be skill's id
+	damage.emit(self, attack_id, target, is_skill)
+
+
+## Sends skill activate signal.
+func _send_skill_activated_signal():
+	## Gets skill's name
+	var skill_id: String = cur_anim_name
+	var skill_data = Utils.find_dictionary_in_array_with_value(
+		skill_set, "id", skill_id
+	)
+	var skill_name: String = skill_data["name"]
+	
+	## Emits corresponding signal
+	skill_activated.emit(skill_name)
 
 
 ## Handles timeout of battle turn timer.

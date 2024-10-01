@@ -32,6 +32,9 @@ var battle_pointer_offset: Vector2 = Vector2(-32, -150)
 ## Holds the scene of damage indicator
 var damage_indicator_scene: PackedScene = Utils.Resources["DAMAGE_INDICATOR"]
 
+## Holds the skill indicator scene for creating skill activation's popups.
+var skill_indicator_scene: PackedScene = Utils.Resources["SKILL_INDICATOR"]
+
 ## UIController has to store BattleFlowManager
 var battle_flow_manager: BattleFlowManager
 
@@ -57,6 +60,17 @@ func create_healthbar(char_node: BaseCharacter, is_enemy: bool):
 	## Connects character's health and energy changed signals to healthbar
 	char_node.health_changed.connect(health_bar.set_health)
 	char_node.energy_changed.connect(health_bar.set_energy)
+
+
+## Creates and shows skill indicator.
+func create_skill_indicator(skill_name: String):
+	## Creates a new skill indicator node, it will automatically be freed
+	## when it's done playing its animation.
+	var skill_indicator: SkillIndicator = skill_indicator_scene.instantiate()
+	battle_screen.add_child(skill_indicator)
+	
+	## Sets skill's name.
+	skill_indicator.set_indicator_text(skill_name)
 
 
 ## Connects command button signals

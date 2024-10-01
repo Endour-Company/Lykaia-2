@@ -164,9 +164,12 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4, 0.8, 1.2, 1.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
+"args": [],
+"method": &"_send_skill_activated_signal"
+}, {
 "args": [true],
 "method": &"_send_damage_signal"
 }, {
@@ -227,9 +230,12 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(1.1),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"_send_skill_activated_signal"
+}, {
 "args": [true],
 "method": &"_send_damage_signal"
 }]

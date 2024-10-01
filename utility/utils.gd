@@ -17,6 +17,7 @@ var Resources = {
 	"BATTLE_POINTER": preload("res://resources/interfaces/battle_screen/modules/battle_pointer/battle_pointer.tscn"),
 	"BATTLE_WAIT_INDICATOR": preload("res://resources/interfaces/battle_screen/modules/battle_wait_bar/battle_wait_indicator.tscn"),
 	"DAMAGE_INDICATOR": preload("res://resources/interfaces/battle_screen/modules/damage_indicator/damage_indicator.tscn"),
+	"SKILL_INDICATOR": preload("res://resources/interfaces/battle_screen/modules/skill_indicator/skill_indicator.tscn"),
 	"INPUT_CIRCLE": preload("res://resources/interfaces/input_prompt_icons/playstation_button_circle.png"),
 	"INPUT_CROSS": preload("res://resources/interfaces/input_prompt_icons/playstation_button_cross.png"),
 	"INPUT_SQUARE": preload("res://resources/interfaces/input_prompt_icons/playstation_button_square.png"),

@@ -33,7 +33,7 @@ var enemy_nodes: Array
 @export_category("Enemies")
 @export_group("Positions")
 ## Stores the enemy's battle position if there's only one enemy.
-@export var SINGLE_ENEMY_POS = Vector2(1200, 500)
+@export var SINGLE_ENEMY_POS = Vector2(1300, 500)
 
 ## Stores the players' battle position when there are 2-3 enemies.
 @export var MULTIPLE_ENEMY_POS = [
@@ -306,7 +306,8 @@ func _setup_character(
 	## Adds health bars
 	ui_controller.create_healthbar(char_node, is_enemy)
 	
-	## Connects battle, damage, and dead signal
+	## Connects battle, damage, skill_activated, and dead signal
 	char_node.battle_action.connect(battle_flow_manager.begin_turn)
 	char_node.damage.connect(battle_flow_manager.on_damage_signal)
+	char_node.skill_activated.connect(ui_controller.create_skill_indicator)
 	char_node.death.connect(battle_flow_manager.on_dead_signal)

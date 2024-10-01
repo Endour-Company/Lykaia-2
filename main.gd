@@ -28,7 +28,7 @@ func adds_enemies_to_fight(enemies: Array):
 
 func _ready():
 	## Adds enemies to fight
-	var enemies = ["Wolf", "Wolf", "Wolf"]
+	var enemies = ["Wolf"]
 	adds_enemies_to_fight(enemies)
 	
 	## Loads battle screen, for now
